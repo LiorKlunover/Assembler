@@ -1,0 +1,465 @@
+        -:    0:Source:/mnt/c/Users/lior3/CLionProjects/untitled8/secondPass.c
+        -:    0:Graph:/mnt/c/Users/lior3/CLionProjects/untitled8/cmake-build-debug-wsl-coverage/CMakeFiles/Assembler.dir/secondPass.c.gcno
+        -:    0:Data:/mnt/c/Users/lior3/CLionProjects/untitled8/cmake-build-debug-wsl-coverage/CMakeFiles/Assembler.dir/secondPass.c.gcda
+        -:    0:Runs:1
+        -:    1:#include "secondPass.h"
+        -:    2:#include "globals.h"
+        -:    3:#include "table.h"
+        -:    4:#include <string.h>
+        -:    5:#include <stdlib.h>
+        -:    6:#include <stdio.h>
+        -:    7:static int count = 0;
+function secondPass called 0 returned 0% blocks executed 0%
+    #####:    8:bool secondPass(char *fileName, lexTable *lexList, symbolTable *labelList){
+        -:    9:     int lineBit;
+    #####:   10:    objectFileContent *objectFileContentList =NULL;
+    #####:   11:    externFileContent *externFileContentList=NULL;
+    #####:   12:    entryFileContent *entryFileContentList = NULL;
+    #####:   13:    lexStruct *currLex = NULL;
+    #####:   14:    int i=0,j;
+    #####:   15:    ALLOCATE(currLex, sizeof(lexStruct));
+    %%%%%:   15-block  0
+branch  0 never executed
+branch  1 never executed
+    %%%%%:   15-block  1
+call    2 never executed
+call    3 never executed
+    #####:   16:    MAKE_TYPE_CONTENT_TABLE(objectFileContentList)
+    %%%%%:   16-block  0
+branch  0 never executed
+branch  1 never executed
+    %%%%%:   16-block  1
+call    2 never executed
+call    3 never executed
+    %%%%%:   16-block  2
+branch  4 never executed
+branch  5 never executed
+    %%%%%:   16-block  3
+call    6 never executed
+call    7 never executed
+    #####:   17:    MAKE_TYPE_CONTENT_TABLE(externFileContentList)
+    %%%%%:   17-block  0
+branch  0 never executed
+branch  1 never executed
+    %%%%%:   17-block  1
+call    2 never executed
+call    3 never executed
+    %%%%%:   17-block  2
+branch  4 never executed
+branch  5 never executed
+    %%%%%:   17-block  3
+call    6 never executed
+call    7 never executed
+    #####:   18:    MAKE_TYPE_CONTENT_TABLE(entryFileContentList)
+    %%%%%:   18-block  0
+branch  0 never executed
+branch  1 never executed
+    %%%%%:   18-block  1
+call    2 never executed
+call    3 never executed
+    %%%%%:   18-block  2
+branch  4 never executed
+branch  5 never executed
+    %%%%%:   18-block  3
+call    6 never executed
+call    7 never executed
+        -:   19:
+    #####:   20:    while(i < lexList->capacity) {
+    %%%%%:   20-block  0
+    %%%%%:   20-block  1
+branch  0 never executed
+branch  1 never executed
+    #####:   21:        currLex = lexList->lexStructList[i++];
+    #####:   22:        if (currLex->label != NULL) {
+    %%%%%:   22-block  0
+branch  0 never executed
+branch  1 never executed
+    #####:   23:            if (currLex->label->defineType == notEntryOrExtern || currLex->label->defineType == operandDefined || !currLex->label->defined ) {
+    %%%%%:   23-block  0
+branch  0 never executed
+branch  1 never executed
+    %%%%%:   23-block  1
+branch  2 never executed
+branch  3 never executed
+    %%%%%:   23-block  2
+branch  4 never executed
+branch  5 never executed
+    #####:   24:                printf("Error in line %d: label \"%s\" is not defined\n", i, currLex->label->symbolName);
+    %%%%%:   24-block  0
+call    0 never executed
+    #####:   25:                return false;
+        -:   26:            }
+        -:   27:        }
+    #####:   28:        if(currLex->lineType == lexInst){
+    %%%%%:   28-block  0
+branch  0 never executed
+branch  1 never executed
+    #####:   29:            lineBit = (currLex->lexType.instType.lineByteCodeData.lineByteCode);
+    #####:   30:            insertObjectFileContent(objectFileContentList, lineBit);
+    %%%%%:   30-block  0
+call    0 never executed
+    #####:   31:           if (!getOperandByte(currLex, objectFileContentList, 0, i, labelList, externFileContentList)){
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    #####:   32:               return false;
+    %%%%%:   32-block  0
+        -:   33:           }
+    #####:   34:            if (!getOperandByte(currLex, objectFileContentList, 1, i, labelList, externFileContentList)){
+    %%%%%:   34-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    #####:   35:                return false;
+    %%%%%:   35-block  0
+        -:   36:            }
+    #####:   37:        }else if(currLex->lineType == lexDir){
+    %%%%%:   37-block  0
+branch  0 never executed
+branch  1 never executed
+    #####:   38:            if (currLex->lexType.dirType.lexDirType == lexDirData) {
+    %%%%%:   38-block  0
+branch  0 never executed
+branch  1 never executed
+    #####:   39:                for ( j = 0; j < currLex->lexType.dirType.dirUnionContent.dataType.numCount; ++j) {
+    %%%%%:   39-block  0
+    %%%%%:   39-block  1
+branch  0 never executed
+branch  1 never executed
+    #####:   40:                    insertObjectFileContent(objectFileContentList, currLex->lexType.dirType.dirUnionContent.dataType.numArray[j]);
+    %%%%%:   40-block  0
+call    0 never executed
+        -:   41:                }
+    #####:   42:            } else if( currLex->lexType.dirType.lexDirType == lexDirString){
+    %%%%%:   42-block  0
+branch  0 never executed
+branch  1 never executed
+    #####:   43:                j=0;
+    #####:   44:                while(j<(strlen(currLex->lexType.dirType.dirUnionContent.stringType)+1)){
+    %%%%%:   44-block  0
+    %%%%%:   44-block  1
+branch  0 never executed
+branch  1 never executed
+    #####:   45:                    insertObjectFileContent(objectFileContentList, currLex->lexType.dirType.dirUnionContent.stringType[j]);
+    %%%%%:   45-block  0
+call    0 never executed
+    #####:   46:                    j++;
+        -:   47:                }
+    #####:   48:            }else if(currLex->lexType.dirType.lexDirType==lexDirEntry){
+    %%%%%:   48-block  0
+branch  0 never executed
+branch  1 never executed
+        -:   49:
+    #####:   50:            }else if(currLex->lexType.dirType.lexDirType==lexDirEntry){
+    %%%%%:   50-block  0
+        -:   51:
+        -:   52:            }
+        -:   53:        }
+        -:   54:    }
+    #####:   55:    makeObjectFile(objectFileContentList, fileName);
+    %%%%%:   55-block  0
+call    0 never executed
+    #####:   56:    makeExternFile(externFileContentList, fileName);
+call    0 never executed
+    #####:   57:    makeEntryFile(labelList, fileName);
+call    0 never executed
+    #####:   58:return true;
+        -:   59:}
+function getOperandByte called 0 returned 0% blocks executed 0%
+    #####:   60:bool getOperandByte(lexStruct *currLex,objectFileContent *objectFileContent,int operandNumber,int lineNum,symbolTable *labelList,externFileContent *externFileContentList) {
+        -:   61:    int bit;
+    #####:   62:    if (currLex->lexType.instType.asm_inst_sets.twoOpeInstType.arrOpType[operandNumber] != -1 ) {
+    %%%%%:   62-block  0
+branch  0 never executed
+branch  1 never executed
+    #####:   63:        if(currLex->lexType.instType.asm_inst_sets.twoOpeInstType.arrOpType[operandNumber] == labelType) {
+    %%%%%:   63-block  0
+branch  0 never executed
+branch  1 never executed
+    #####:   64:            if ((bit = currLex->lexType.instType.asm_inst_sets.twoOpeInstType.arrOpName[operandNumber].label->address) == 0) {
+    %%%%%:   64-block  0
+branch  0 never executed
+branch  1 never executed
+    #####:   65:                if ((bit = getLabelAddress(currLex->lexType.instType.asm_inst_sets.twoOpeInstType.arrOpName[operandNumber].label->symbolName, labelList)) == -1){
+    %%%%%:   65-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    #####:   66:                    printf("Error in line %d: label \"%s\" is not defined\n", lineNum, currLex->lexType.instType.asm_inst_sets.twoOpeInstType.arrOpName[operandNumber].label->symbolName);
+    %%%%%:   66-block  0
+call    0 never executed
+    #####:   67:                    return false;
+        -:   68:                }
+        -:   69:            }
+    #####:   70:            if (currLex->lexType.instType.asm_inst_sets.twoOpeInstType.arrOpName[operandNumber].label->defineType == externLabel ){
+    %%%%%:   70-block  0
+branch  0 never executed
+branch  1 never executed
+    #####:   71:                insertToExternContent(externFileContentList, currLex->lexType.instType.asm_inst_sets.twoOpeInstType.arrOpName[operandNumber].label->symbolName, count);
+    %%%%%:   71-block  0
+call    0 never executed
+        -:   72:            }
+    #####:   73:            if (operandNumber == 0) {
+    %%%%%:   73-block  0
+branch  0 never executed
+branch  1 never executed
+    #####:   74:                bit <<= 2;
+    #####:   75:                bit |=2;
+    #####:   76:                currLex->lexType.instType.lineByteCodeData.sourceOpByteCode = bit;
+    %%%%%:   76-block  0
+    #####:   77:            } else if (operandNumber == 1) {
+    %%%%%:   77-block  0
+branch  0 never executed
+branch  1 never executed
+    #####:   78:                bit <<= 2;
+    #####:   79:                bit |=2;
+    #####:   80:                currLex->lexType.instType.lineByteCodeData.targetOpByteCode = bit;
+    %%%%%:   80-block  0
+        -:   81:            }
+    #####:   82:        }if (operandNumber == 1 ){
+    %%%%%:   82-block  0
+branch  0 never executed
+branch  1 never executed
+    #####:   83:            insertObjectFileContent(objectFileContent, currLex->lexType.instType.lineByteCodeData.targetOpByteCode);
+    %%%%%:   83-block  0
+call    0 never executed
+    #####:   84:        }else if (operandNumber == 0 && !(currLex->lexType.instType.asm_inst_sets.twoOpeInstType.arrOpType[0] == registerType && currLex->lexType.instType.asm_inst_sets.twoOpeInstType.arrOpType[1] == registerType)){
+    %%%%%:   84-block  0
+branch  0 never executed
+branch  1 never executed
+    %%%%%:   84-block  1
+branch  2 never executed
+branch  3 never executed
+    %%%%%:   84-block  2
+branch  4 never executed
+branch  5 never executed
+    #####:   85:            insertObjectFileContent(objectFileContent, currLex->lexType.instType.lineByteCodeData.sourceOpByteCode);
+    %%%%%:   85-block  0
+call    0 never executed
+        -:   86:        }
+        -:   87:    }
+    #####:   88:    return true;
+    %%%%%:   88-block  0
+        -:   89:}
+function getLabelAddress called 0 returned 0% blocks executed 0%
+    #####:   90:int getLabelAddress(char *label,symbolTable *symbolTable){
+    #####:   91:    int i=0;
+    #####:   92:    while(i <= symbolTable->capacity){
+    %%%%%:   92-block  0
+    %%%%%:   92-block  1
+branch  0 never executed
+branch  1 never executed
+    #####:   93:        if(strcmp(symbolTable->labels[i]->symbolName,label) == 0){
+    %%%%%:   93-block  0
+branch  0 never executed
+branch  1 never executed
+    #####:   94:            if (symbolTable->labels[i]->address!=0){
+    %%%%%:   94-block  0
+branch  0 never executed
+branch  1 never executed
+    #####:   95:                return symbolTable->labels[i]->address;
+    %%%%%:   95-block  0
+        -:   96:            }else{
+    #####:   97:                printf("Error: label %s Adress not found` is not defined\n",label);
+    %%%%%:   97-block  0
+call    0 never executed
+    #####:   98:                break;
+        -:   99:            }
+        -:  100:        }
+    #####:  101:        i++;
+    %%%%%:  101-block  0
+        -:  102:    }
+    #####:  103:    return -1;
+    %%%%%:  103-block  0
+        -:  104:}
+        -:  105:
+function insertObjectFileContent called 0 returned 0% blocks executed 0%
+    #####:  106:void insertObjectFileContent(objectFileContent *objectContent, int bit){
+    #####:  107:    int *num = malloc(sizeof(int));
+    #####:  108:    *num = bit;
+    #####:  109:    if (objectContent->capacity == objectContent->size) {
+    %%%%%:  109-block  0
+branch  0 never executed
+branch  1 never executed
+    #####:  110:        objectContent->size *= 2;
+    #####:  111:        REALLOCTION(objectContent->content, sizeof(char) * objectContent->size);
+    %%%%%:  111-block  0
+branch  0 never executed
+branch  1 never executed
+    %%%%%:  111-block  1
+    %%%%%:  111-block  2
+call    2 never executed
+call    3 never executed
+        -:  112:    }
+    #####:  113:    count++;
+    #####:  114:    objectContent->content[objectContent->capacity++] = decimal12ToBase64(*num);
+    %%%%%:  114-block  0
+call    0 never executed
+    #####:  115:}
+        -:  116:
+function print called 0 returned 0% blocks executed 0%
+    #####:  117:void print(int bit){
+    #####:  118:    char str[] ="000000000000";
+    #####:  119:    int i,num = 1;
+    #####:  120:    for ( i = 0; i < 12; ++i) {
+    %%%%%:  120-block  0
+    %%%%%:  120-block  1
+branch  0 never executed
+branch  1 never executed
+    #####:  121:        if (num & bit) {
+    %%%%%:  121-block  0
+branch  0 never executed
+branch  1 never executed
+    #####:  122:            str[11 - i] = '1';
+    %%%%%:  122-block  0
+        -:  123:        } else {
+    #####:  124:            str[11 - i] = '0';
+    %%%%%:  124-block  0
+        -:  125:        }
+    #####:  126:        num <<= 1;
+    %%%%%:  126-block  0
+        -:  127:    }
+    #####:  128:    printf("%d: %s - %d\n",  (100+count),str, bit);
+    %%%%%:  128-block  0
+call    0 never executed
+    #####:  129:    count++;
+    #####:  130:}
+function insertToExternContent called 0 returned 0% blocks executed 0%
+    #####:  131:void insertToExternContent(externFileContent *externContent, char *label, int lineNum){
+    #####:  132:    char *str = malloc(sizeof(char) * 100);
+    #####:  133:    sprintf(str, "%s %d", label, (lineNum+100));
+    #####:  134:    if (externContent->capacity == externContent->size) {
+    %%%%%:  134-block  0
+branch  0 never executed
+branch  1 never executed
+    #####:  135:        externContent->size *= 2;
+    #####:  136:        REALLOCTION(externContent->content, sizeof(char) * externContent->size);
+    %%%%%:  136-block  0
+branch  0 never executed
+branch  1 never executed
+    %%%%%:  136-block  1
+    %%%%%:  136-block  2
+call    2 never executed
+call    3 never executed
+        -:  137:    }
+    #####:  138:    externContent->content[externContent->capacity++] = str;
+        -:  139:
+    #####:  140:}
+function makeObjectFile called 0 returned 0% blocks executed 0%
+    #####:  141:void makeObjectFile(objectFileContent *objectContent, char *fileName){
+        -:  142:    int i;
+    #####:  143:    FILE *fp = NULL;
+    #####:  144:    fileName = giveNameFile(fileName, ".ob");
+    %%%%%:  144-block  0
+call    0 never executed
+    #####:  145:    fp = fopen(fileName, "w");
+call    0 never executed
+    #####:  146:    if (fp == NULL){
+branch  0 never executed
+branch  1 never executed
+    #####:  147:        printf("Error: can't open file %s\n",fileName);
+    %%%%%:  147-block  0
+call    0 never executed
+    #####:  148:        return;
+        -:  149:    }
+    #####:  150:    fprintf(fp, "%d %d\n", 100, objectContent->capacity);
+    %%%%%:  150-block  0
+call    0 never executed
+    #####:  151:    for (i = 0; i < objectContent->capacity; ++i) {
+    %%%%%:  151-block  0
+branch  0 never executed
+branch  1 never executed
+    #####:  152:        fprintf(fp, "%d: %s\n",i, objectContent->content[i]);
+    %%%%%:  152-block  0
+call    0 never executed
+        -:  153:    }
+    #####:  154:    fclose(fp);
+    %%%%%:  154-block  0
+call    0 never executed
+    #####:  155:    free(fileName);
+        -:  156:
+        -:  157:}
+function makeExternFile called 0 returned 0% blocks executed 0%
+    #####:  158:void makeExternFile(externFileContent *externContent, char *fileName){
+        -:  159:    int i;
+    #####:  160:    FILE *fp = NULL;
+    #####:  161:    fileName = giveNameFile(fileName, ".txt");
+    %%%%%:  161-block  0
+call    0 never executed
+    #####:  162:    fp = fopen(fileName, "w");
+call    0 never executed
+    #####:  163:    if (fp == NULL){
+branch  0 never executed
+branch  1 never executed
+    #####:  164:        printf("Error: can't open file %s\n",fileName);
+    %%%%%:  164-block  0
+call    0 never executed
+    #####:  165:        return;
+        -:  166:    }
+    #####:  167:    for (i = 0; i < externContent->capacity; ++i) {
+    %%%%%:  167-block  0
+    %%%%%:  167-block  1
+branch  0 never executed
+branch  1 never executed
+    #####:  168:        fprintf(fp, "%s\n", externContent->content[i]);
+    %%%%%:  168-block  0
+call    0 never executed
+        -:  169:    }
+    #####:  170:    fclose(fp);
+    %%%%%:  170-block  0
+call    0 never executed
+    #####:  171:    free(fileName);
+        -:  172:}
+function makeEntryFile called 0 returned 0% blocks executed 0%
+    #####:  173:void makeEntryFile(symbolTable *labelList, char *fileName){
+        -:  174:    int i;
+    #####:  175:    FILE *fp = NULL;
+    #####:  176:    char *str = malloc(sizeof(char) * 40);
+    #####:  177:    fileName = giveNameFile(fileName, ".ent");
+    %%%%%:  177-block  0
+call    0 never executed
+    #####:  178:    fp = fopen(fileName, "w");
+call    0 never executed
+    #####:  179:    if (fp == NULL){
+branch  0 never executed
+branch  1 never executed
+    #####:  180:        printf("Error: can't open file %s\n",fileName);
+    %%%%%:  180-block  0
+call    0 never executed
+    #####:  181:        return;
+        -:  182:    }
+    #####:  183:    for (i = 0; i < labelList->capacity; ++i) {
+    %%%%%:  183-block  0
+    %%%%%:  183-block  1
+    %%%%%:  183-block  2
+branch  0 never executed
+branch  1 never executed
+    #####:  184:        if (labelList->labels[i]->defineType == entryLabel) {
+    %%%%%:  184-block  0
+branch  0 never executed
+branch  1 never executed
+    #####:  185:            sprintf(str, "%s %d", labelList->labels[i]->symbolName, labelList->labels[i]->address);
+    #####:  186:            fprintf(fp, "%s\n", str);
+    %%%%%:  186-block  0
+call    0 never executed
+        -:  187:        }
+        -:  188:    }
+    #####:  189:    fclose(fp);
+    %%%%%:  189-block  0
+call    0 never executed
+    #####:  190:    free(fileName);
+        -:  191:}
+        -:  192:const char base64Chars[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+function decimal12ToBase64 called 0 returned 0% blocks executed 0%
+    #####:  193:char* decimal12ToBase64(int n) {
+    #####:  194:    char *result = malloc(sizeof(char) * 3);
+    #####:  195:    int group1 = (n >> 6) & 0x3F;
+    #####:  196:    int group2 = n & 0x3F;
+    #####:  197:    result[0] = base64Chars[group1];
+    #####:  198:    result[1] = base64Chars[group2];
+    #####:  199:    result[2] = '\0';
+    #####:  200:    return result;
+    %%%%%:  200-block  0
+        -:  201:}
+        -:  202:
+        -:  203:

@@ -1,0 +1,65 @@
+        -:    0:Source:/mnt/c/Users/lior3/CLionProjects/untitled8/Assembler.c
+        -:    0:Graph:/mnt/c/Users/lior3/CLionProjects/untitled8/cmake-build-debug-wsl-coverage/CMakeFiles/Assembler.dir/Assembler.c.gcno
+        -:    0:Data:/mnt/c/Users/lior3/CLionProjects/untitled8/cmake-build-debug-wsl-coverage/CMakeFiles/Assembler.dir/Assembler.c.gcda
+        -:    0:Runs:1
+        -:    1:#include <stdio.h>
+        -:    2:#include <stdlib.h>
+        -:    3:#include "preAssembler.h"
+        -:    4:#include "firstPass.h"
+        -:    5:#include "secondPass.h"
+        -:    6:#include "code.h"
+        -:    7:#include "lexer.h"
+        -:    8:#include "table.h"
+function main called 1 returned 100% blocks executed 32%
+        1:    9:int main( int argc, char *argv[] ) {
+        -:   10:    int i;
+        1:   11:    macroTable *macroTable = creatMacroTable();
+        1:   11-block  0
+call    0 returned 1
+        1:   12:    lexTable *lexTable = createLexStruct();
+call    0 returned 1
+        1:   13:    symbolTable *symbolTable = creatSymbolTable();
+call    0 returned 1
+       1*:   14:    for (i = 1; i < argc; ++i) {
+    %%%%%:   14-block  0
+        1:   14-block  1
+branch  0 taken 0
+branch  1 taken 1 (fallthrough)
+    #####:   15:       if(!preProcessFile(argv[i], macroTable)){
+    %%%%%:   15-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    #####:   16:           printf("File %s pre processed file failed in main\n", argv[i]);
+    %%%%%:   16-block  0
+call    0 never executed
+    #####:   17:           continue;
+        -:   18:       }
+    #####:   19:        printf("File %s pre processed succeeded\n\n", argv[i]);
+    %%%%%:   19-block  0
+call    0 never executed
+    #####:   20:       if(!firstPass(argv[i], macroTable,lexTable,symbolTable)){
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    #####:   21:            printf("File %s  first pass failed in main\n\n", argv[i]);
+    %%%%%:   21-block  0
+call    0 never executed
+    #####:   22:            continue;
+        -:   23:        }
+    #####:   24:        printf("File %s firstPass succeeded\n\n", argv[i]);
+    %%%%%:   24-block  0
+call    0 never executed
+    #####:   25:        if(!secondPass(argv[i],lexTable,symbolTable)){
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    #####:   26:            printf("File %s Second pass failed in main\n\n", argv[i]);
+    %%%%%:   26-block  0
+call    0 never executed
+    #####:   27:            continue;
+        -:   28:        }
+        -:   29:    }
+        1:   30:    return 0;
+        1:   30-block  0
+        -:   31:}

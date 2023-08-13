@@ -1,0 +1,53 @@
+        -:    0:Source:/mnt/c/Users/lior3/CLionProjects/untitled8/codeFirsPass.c
+        -:    0:Graph:/mnt/c/Users/lior3/CLionProjects/untitled8/cmake-build-debug-wsl-coverage/CMakeFiles/Assembler.dir/codeFirsPass.c.gcno
+        -:    0:Data:/mnt/c/Users/lior3/CLionProjects/untitled8/cmake-build-debug-wsl-coverage/CMakeFiles/Assembler.dir/codeFirsPass.c.gcda
+        -:    0:Runs:1
+        -:    1:#include "codeFirsPass.h"
+        -:    2:#include "code.h"
+        -:    3:#include <stdlib.h>
+        -:    4:#include <string.h>
+        -:    5:#include <stdio.h>
+function splitStringForFirstpass called 0 returned 0% blocks executed 0%
+    #####:    6:char** splitStringForFirstpass( char* input,int *countWords){
+    #####:    7:    char *str = strdup(input);
+    #####:    8:    int count = 0;
+    #####:    9:    char* token= NULL;
+    #####:   10:    char** substrings = NULL;
+        -:   11:
+    #####:   12:    token= strtok(str, ",");
+    %%%%%:   12-block  0
+call    0 never executed
+        -:   13:
+    #####:   14:    while (token != NULL) {
+    %%%%%:   14-block  0
+branch  0 never executed
+branch  1 never executed
+    #####:   15:        substrings = realloc(substrings, (count + 1) * sizeof(char*));
+    #####:   16:        REALLOCTION(substrings, (count + 1) * sizeof(char*));
+    %%%%%:   16-block  0
+branch  0 never executed
+branch  1 never executed
+    %%%%%:   16-block  1
+    %%%%%:   16-block  2
+call    2 never executed
+call    3 never executed
+    #####:   17:        substrings[count] = strdup(token);
+    #####:   18:        count++;
+    #####:   19:        token = strtok(NULL, ",");
+    %%%%%:   19-block  0
+call    0 never executed
+        -:   20:    }
+    #####:   21:    REALLOCTION(substrings, (count + 1) * sizeof(char*));
+    %%%%%:   21-block  0
+branch  0 never executed
+branch  1 never executed
+    %%%%%:   21-block  1
+    %%%%%:   21-block  2
+call    2 never executed
+call    3 never executed
+    #####:   22:    substrings[count] = NULL;
+    #####:   23:    *countWords = count;
+    #####:   24:    free(str);
+    #####:   25:    return substrings;
+    %%%%%:   25-block  0
+        -:   26:}

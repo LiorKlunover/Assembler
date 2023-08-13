@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="untitled5"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="gcc"/>
+		<Option virtualFolders="CMake Files\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="/mnt/c/Users/lior3/CLionProjects/untitled8/cmake-build-debug-wsl-coverage"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/gmake -j8 -f &quot;/mnt/c/Users/lior3/CLionProjects/untitled8/cmake-build-debug-wsl-coverage/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/gmake -j8 -f &quot;/mnt/c/Users/lior3/CLionProjects/untitled8/cmake-build-debug-wsl-coverage/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -j8 -f &quot;/mnt/c/Users/lior3/CLionProjects/untitled8/cmake-build-debug-wsl-coverage/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -j8 -f &quot;/mnt/c/Users/lior3/CLionProjects/untitled8/cmake-build-debug-wsl-coverage/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="Assembler">
+				<Option output="/mnt/c/Users/lior3/CLionProjects/untitled8/cmake-build-debug-wsl-coverage/Assembler" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/mnt/c/Users/lior3/CLionProjects/untitled8/cmake-build-debug-wsl-coverage"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/11/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/gmake -j8 -f &quot;/mnt/c/Users/lior3/CLionProjects/untitled8/cmake-build-debug-wsl-coverage/Makefile&quot;  VERBOSE=1 Assembler"/>
+					<CompileFile command="/usr/bin/gmake -j8 -f &quot;/mnt/c/Users/lior3/CLionProjects/untitled8/cmake-build-debug-wsl-coverage/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -j8 -f &quot;/mnt/c/Users/lior3/CLionProjects/untitled8/cmake-build-debug-wsl-coverage/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -j8 -f &quot;/mnt/c/Users/lior3/CLionProjects/untitled8/cmake-build-debug-wsl-coverage/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="Assembler/fast">
+				<Option output="/mnt/c/Users/lior3/CLionProjects/untitled8/cmake-build-debug-wsl-coverage/Assembler" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/mnt/c/Users/lior3/CLionProjects/untitled8/cmake-build-debug-wsl-coverage"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/11/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/gmake -j8 -f &quot;/mnt/c/Users/lior3/CLionProjects/untitled8/cmake-build-debug-wsl-coverage/Makefile&quot;  VERBOSE=1 Assembler/fast"/>
+					<CompileFile command="/usr/bin/gmake -j8 -f &quot;/mnt/c/Users/lior3/CLionProjects/untitled8/cmake-build-debug-wsl-coverage/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -j8 -f &quot;/mnt/c/Users/lior3/CLionProjects/untitled8/cmake-build-debug-wsl-coverage/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -j8 -f &quot;/mnt/c/Users/lior3/CLionProjects/untitled8/cmake-build-debug-wsl-coverage/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="/mnt/c/Users/lior3/CLionProjects/untitled8/cmake-build-debug-wsl-coverage"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/gmake -j8 -f &quot;/mnt/c/Users/lior3/CLionProjects/untitled8/cmake-build-debug-wsl-coverage/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/gmake -j8 -f &quot;/mnt/c/Users/lior3/CLionProjects/untitled8/cmake-build-debug-wsl-coverage/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -j8 -f &quot;/mnt/c/Users/lior3/CLionProjects/untitled8/cmake-build-debug-wsl-coverage/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -j8 -f &quot;/mnt/c/Users/lior3/CLionProjects/untitled8/cmake-build-debug-wsl-coverage/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="rebuild_cache">
+				<Option working_dir="/mnt/c/Users/lior3/CLionProjects/untitled8/cmake-build-debug-wsl-coverage"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/gmake -j8 -f &quot;/mnt/c/Users/lior3/CLionProjects/untitled8/cmake-build-debug-wsl-coverage/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/gmake -j8 -f &quot;/mnt/c/Users/lior3/CLionProjects/untitled8/cmake-build-debug-wsl-coverage/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -j8 -f &quot;/mnt/c/Users/lior3/CLionProjects/untitled8/cmake-build-debug-wsl-coverage/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -j8 -f &quot;/mnt/c/Users/lior3/CLionProjects/untitled8/cmake-build-debug-wsl-coverage/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="/mnt/c/Users/lior3/CLionProjects/untitled8/Assembler.c">
+			<Option target="Assembler"/>
+		</Unit>
+		<Unit filename="/mnt/c/Users/lior3/CLionProjects/untitled8/code.c">
+			<Option target="Assembler"/>
+		</Unit>
+		<Unit filename="/mnt/c/Users/lior3/CLionProjects/untitled8/code.h">
+			<Option target="Assembler"/>
+		</Unit>
+		<Unit filename="/mnt/c/Users/lior3/CLionProjects/untitled8/codeFirsPass.c">
+			<Option target="Assembler"/>
+		</Unit>
+		<Unit filename="/mnt/c/Users/lior3/CLionProjects/untitled8/codeFirsPass.h">
+			<Option target="Assembler"/>
+		</Unit>
+		<Unit filename="/mnt/c/Users/lior3/CLionProjects/untitled8/firstPass.c">
+			<Option target="Assembler"/>
+		</Unit>
+		<Unit filename="/mnt/c/Users/lior3/CLionProjects/untitled8/firstPass.h">
+			<Option target="Assembler"/>
+		</Unit>
+		<Unit filename="/mnt/c/Users/lior3/CLionProjects/untitled8/globals.h">
+			<Option target="Assembler"/>
+		</Unit>
+		<Unit filename="/mnt/c/Users/lior3/CLionProjects/untitled8/lexer.c">
+			<Option target="Assembler"/>
+		</Unit>
+		<Unit filename="/mnt/c/Users/lior3/CLionProjects/untitled8/lexer.h">
+			<Option target="Assembler"/>
+		</Unit>
+		<Unit filename="/mnt/c/Users/lior3/CLionProjects/untitled8/preAssembler.c">
+			<Option target="Assembler"/>
+		</Unit>
+		<Unit filename="/mnt/c/Users/lior3/CLionProjects/untitled8/preAssembler.h">
+			<Option target="Assembler"/>
+		</Unit>
+		<Unit filename="/mnt/c/Users/lior3/CLionProjects/untitled8/secondPass.c">
+			<Option target="Assembler"/>
+		</Unit>
+		<Unit filename="/mnt/c/Users/lior3/CLionProjects/untitled8/secondPass.h">
+			<Option target="Assembler"/>
+		</Unit>
+		<Unit filename="/mnt/c/Users/lior3/CLionProjects/untitled8/table.c">
+			<Option target="Assembler"/>
+		</Unit>
+		<Unit filename="/mnt/c/Users/lior3/CLionProjects/untitled8/table.h">
+			<Option target="Assembler"/>
+		</Unit>
+		<Unit filename="/mnt/c/Users/lior3/CLionProjects/untitled8/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>

@@ -1,0 +1,310 @@
+        -:    0:Source:/mnt/c/Users/lior3/CLionProjects/untitled8/firstPass.c
+        -:    0:Graph:/mnt/c/Users/lior3/CLionProjects/untitled8/cmake-build-debug-wsl-coverage/CMakeFiles/Assembler.dir/firstPass.c.gcno
+        -:    0:Data:/mnt/c/Users/lior3/CLionProjects/untitled8/cmake-build-debug-wsl-coverage/CMakeFiles/Assembler.dir/firstPass.c.gcda
+        -:    0:Runs:1
+        -:    1:#include "firstPass.h"
+        -:    2:#include <stdlib.h>
+        -:    3:#include "codeFirsPass.h"
+        -:    4:#include "table.h"
+function firstPass called 0 returned 0% blocks executed 0%
+    #####:    5:bool firstPass(char *fileAm, macroTable *macroTable,lexTable *lexTable, symbolTable *labelList) {
+        -:    6:    FILE *fp;
+        -:    7:    /*fileAm = strcat(fileAm, ".am");
+        -:    8:    fp = fopen(fileAm, "r");*/
+    #####:    9:    fp = fopen("C:\\Users\\lior3\\CLionProjects\\Assembler\\test1.am", "r");
+    %%%%%:    9-block  0
+call    0 never executed
+    #####:   10:    if (fp == NULL) {
+branch  0 never executed
+branch  1 never executed
+    #####:   11:        printf("Error: file %s cannot be opened\n", fileAm);
+    %%%%%:   11-block  0
+call    0 never executed
+    #####:   12:        return false;
+        -:   13:    }
+    #####:   14:    if (lineProcessFirst(fp, macroTable, lexTable, labelList)) {
+    %%%%%:   14-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    #####:   15:        fclose(fp);
+    %%%%%:   15-block  0
+call    0 never executed
+    #####:   16:        return true;
+        -:   17:    }
+    #####:   18:    fclose(fp);
+    %%%%%:   18-block  0
+call    0 never executed
+    #####:   19:    return false;
+        -:   20:}
+        -:   21:
+function lineProcessFirst called 0 returned 0% blocks executed 0%
+    #####:   22:bool lineProcessFirst(FILE *fp, macroTable *macroTable,lexTable *lexTable, symbolTable *labelList) {
+        -:   23:    char *currLine;
+        -:   24:    lineStr * line;
+    #####:   25:    int index=0, countWords,*IC,*DC;
+    #####:   26:    lexStruct *lexTree = NULL;
+    #####:   27:    bool error = true;
+    #####:   28:    ALLOCATE(currLine, MAX_LINE_LENGTH);
+    %%%%%:   28-block  0
+branch  0 never executed
+branch  1 never executed
+    %%%%%:   28-block  1
+call    2 never executed
+call    3 never executed
+    #####:   29:    ALLOCATE(line, sizeof(line));
+    %%%%%:   29-block  0
+branch  0 never executed
+branch  1 never executed
+    %%%%%:   29-block  1
+call    2 never executed
+call    3 never executed
+    #####:   30:    ALLOCATE(IC, sizeof(int));
+    %%%%%:   30-block  0
+branch  0 never executed
+branch  1 never executed
+    %%%%%:   30-block  1
+call    2 never executed
+call    3 never executed
+    #####:   31:    ALLOCATE(DC, sizeof(int));
+    %%%%%:   31-block  0
+branch  0 never executed
+branch  1 never executed
+    %%%%%:   31-block  1
+call    2 never executed
+call    3 never executed
+    #####:   32:    *IC=0;
+    #####:   33:    *DC=0;
+    #####:   34:    while (fgets(currLine, MAX_LINE_LENGTH, fp) != NULL) {
+    %%%%%:   34-block  0
+    %%%%%:   34-block  1
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    #####:   35:        if(!checkForError(currLine, index)){
+    %%%%%:   35-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    #####:   36:            error = false;
+    %%%%%:   36-block  0
+        -:   37:        }
+    #####:   38:        line->lineContent = splitString(currLine, &countWords, " \n");
+    %%%%%:   38-block  0
+call    0 never executed
+    #####:   39:        line->lineNum = ++index;
+    #####:   40:        line->size = countWords;
+    #####:   41:        if (lexTable->capacity == lexTable->size) {
+branch  0 never executed
+branch  1 never executed
+    #####:   42:            reallocateLexTable(lexTable);
+    %%%%%:   42-block  0
+call    0 never executed
+        -:   43:        }
+    #####:   44:        lexTree = getLexTreePosition(line, labelList,IC,DC,macroTable);
+    %%%%%:   44-block  0
+call    0 never executed
+    #####:   45:        if (lexTree == NULL) {
+branch  0 never executed
+branch  1 never executed
+    #####:   46:            printf("error in first pass: %d\n", line->lineNum);
+    %%%%%:   46-block  0
+call    0 never executed
+    #####:   47:            error = false;
+        -:   48:        }else{
+    #####:   49:            if (lexTree->lineType == lexInst)
+    %%%%%:   49-block  0
+branch  0 never executed
+branch  1 never executed
+    #####:   50:                addBinaryCode(lexTree);
+    %%%%%:   50-block  0
+call    0 never executed
+        -:   51:        }
+        -:   52:
+    #####:   53:        lexTable->lexStructList[lexTable->capacity++] = lexTree;
+    %%%%%:   53-block  0
+        -:   54:
+        -:   55:    }
+    #####:   56:    return error;
+    %%%%%:   56-block  0
+        -:   57:}
+        -:   58:
+function checkForError called 0 returned 0% blocks executed 0%
+    #####:   59:bool checkForError(char *line, int lineNum) {
+    #####:   60:    if (checkComma(line)) {
+    %%%%%:   60-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    #####:   61:        printf("Error in lineStr %d: Consecutive commas\n", lineNum);
+    %%%%%:   61-block  0
+call    0 never executed
+    #####:   62:        return false;
+        -:   63:    }
+    #####:   64:    return true;
+    %%%%%:   64-block  0
+        -:   65:}
+        -:   66:
+        -:   67:
+function addBinaryCode called 0 returned 0% blocks executed 0%
+    #####:   68:void addBinaryCode(lexStruct *lexStruct){
+    #####:   69:    int bit =0;
+    #####:   70:    if (lexStruct->lineType == lexInst && lexStruct->lexType.instType.instName != error) {
+    %%%%%:   70-block  0
+branch  0 never executed
+branch  1 never executed
+    %%%%%:   70-block  1
+branch  2 never executed
+branch  3 never executed
+    #####:   71:        getInstructionsAndOperandsBit(lexStruct);
+    %%%%%:   71-block  0
+call    0 never executed
+        -:   72:
+        -:   73:    }
+    #####:   74:}
+        -:   75:
+function getInstructionsAndOperandsBit called 0 returned 0% blocks executed 0%
+    #####:   76:void getInstructionsAndOperandsBit( lexStruct *lexTree){
+    #####:   77:    operandAddrTypeName *arrAddName = lexTree->lexType.instType.asm_inst_sets.twoOpeInstType.arrOpName;
+    #####:   78:    opCode opCode = lexTree->lexType.instType.instName;
+    #####:   79:    operandAddrType *arrAddrType = lexTree->lexType.instType.asm_inst_sets.twoOpeInstType.arrOpType;
+    #####:   80:    int bitLine =0,bitFirst=0,bitSecond=0,temp=0;
+    #####:   81:    int bitSourceOperand=0;
+    #####:   82:    int birTargetOperand = 0;
+    #####:   83:    bitLine |= getOpCodeBinary(opCode);
+    %%%%%:   83-block  0
+call    0 never executed
+    #####:   84:    if (lexTree->lexType.instType.numOfOperands > 0){
+branch  0 never executed
+branch  1 never executed
+    #####:   85:        bitFirst = getAddressingType(arrAddrType, 1);
+    %%%%%:   85-block  0
+call    0 never executed
+    #####:   86:        if (bitFirst == 1) {
+branch  0 never executed
+branch  1 never executed
+    #####:   87:            temp = arrAddName[1].immed;
+    #####:   88:            temp <<= 2;
+    #####:   89:            temp  &= 4095;
+    #####:   90:            birTargetOperand = temp;
+    %%%%%:   90-block  0
+        -:   91:
+    #####:   92:        }else if(bitFirst == 3){
+    %%%%%:   92-block  0
+branch  0 never executed
+branch  1 never executed
+    #####:   93:            if (arrAddName[1].label->address != 0) {
+    %%%%%:   93-block  0
+branch  0 never executed
+branch  1 never executed
+    #####:   94:                temp = arrAddName[1].label->address;
+    #####:   95:                temp <<= 2;
+    #####:   96:                birTargetOperand |= temp;
+    #####:   97:                birTargetOperand |= 2;
+    %%%%%:   97-block  0
+        -:   98:            }
+    #####:   99:        }else if(bitFirst == 5){
+    %%%%%:   99-block  0
+branch  0 never executed
+branch  1 never executed
+    #####:  100:            temp = (arrAddName[1].reg);
+    #####:  101:            temp <<= 2;
+    #####:  102:            birTargetOperand |= temp;
+    %%%%%:  102-block  0
+        -:  103:        }
+    #####:  104:        if (lexTree->lexType.instType.numOfOperands > 1){
+    %%%%%:  104-block  0
+branch  0 never executed
+branch  1 never executed
+    #####:  105:            bitSecond = getAddressingType(arrAddrType, 0);
+    %%%%%:  105-block  0
+call    0 never executed
+    #####:  106:            if(bitSecond == 5){
+branch  0 never executed
+branch  1 never executed
+    #####:  107:                temp = (arrAddName[0].reg);
+    #####:  108:                temp <<= 7;
+    #####:  109:                if(arrAddrType[1] != registerType){
+    %%%%%:  109-block  0
+branch  0 never executed
+branch  1 never executed
+    #####:  110:                    bitSourceOperand |= temp;
+    %%%%%:  110-block  0
+        -:  111:                } else{
+    #####:  112:                    birTargetOperand |= temp;
+    %%%%%:  112-block  0
+        -:  113:                }
+    #####:  114:            }else if(bitSecond == 3){
+    %%%%%:  114-block  0
+branch  0 never executed
+branch  1 never executed
+    #####:  115:                if (arrAddName[0].label->address != 0){
+    %%%%%:  115-block  0
+branch  0 never executed
+branch  1 never executed
+    #####:  116:                    temp = arrAddName[0].label->address;
+    #####:  117:                    temp <<= 2;
+    #####:  118:                    bitSourceOperand |= temp;
+    #####:  119:                    bitSourceOperand |= 2;
+    %%%%%:  119-block  0
+        -:  120:                }
+    #####:  121:            }else if(bitSecond==1){
+    %%%%%:  121-block  0
+branch  0 never executed
+branch  1 never executed
+    #####:  122:                temp = arrAddName[0].immed;
+    #####:  123:                temp = ~temp;
+    #####:  124:                temp++;
+    #####:  125:                bitSourceOperand = temp;
+    %%%%%:  125-block  0
+        -:  126:            }
+    #####:  127:            bitFirst <<= 2;
+    #####:  128:            bitSecond <<= 9;
+    #####:  129:            bitLine |= bitFirst;
+    #####:  130:            bitLine |= bitSecond;
+    %%%%%:  130-block  0
+        -:  131:        } else{
+    #####:  132:            bitFirst <<= 2;
+    #####:  133:            bitLine |= bitFirst;
+    %%%%%:  133-block  0
+        -:  134:        }
+        -:  135:    }
+    #####:  136:    lexTree->lexType.instType.lineByteCodeData.lineByteCode = bitLine;
+    #####:  137:    lexTree->lexType.instType.lineByteCodeData.sourceOpByteCode = bitSourceOperand;
+    #####:  138:    lexTree->lexType.instType.lineByteCodeData.targetOpByteCode = birTargetOperand;
+        -:  139:
+    #####:  140:}
+function getOpCodeBinary called 0 returned 0% blocks executed 0%
+    #####:  141:int getOpCodeBinary(opCode opCode){
+    #####:  142:    int codes[]={0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15};
+    #####:  143:    int index = opCode;
+    #####:  144:    int byteCode = codes[index] << 5;
+    #####:  145:    return byteCode;
+    %%%%%:  145-block  0
+        -:  146:}
+function getAddressingType called 0 returned 0% blocks executed 0%
+    #####:  147:int getAddressingType(operandAddrType arrAddrType[], int index){
+    #####:  148:    if(arrAddrType[index] == immediate){
+    %%%%%:  148-block  0
+branch  0 never executed
+branch  1 never executed
+    #####:  149:        return 1;
+    %%%%%:  149-block  0
+        -:  150:    }
+    #####:  151:    if(arrAddrType[index] == labelType){
+    %%%%%:  151-block  0
+branch  0 never executed
+branch  1 never executed
+    #####:  152:        return 3;
+    %%%%%:  152-block  0
+        -:  153:    }
+    #####:  154:    if(arrAddrType[index] == registerType){
+    %%%%%:  154-block  0
+branch  0 never executed
+branch  1 never executed
+    #####:  155:        return 5;
+    %%%%%:  155-block  0
+        -:  156:    }
+    #####:  157:    return 0;
+    %%%%%:  157-block  0
+        -:  158:}

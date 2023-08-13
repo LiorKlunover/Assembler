@@ -1,0 +1,323 @@
+        -:    0:Source:/mnt/c/Users/lior3/CLionProjects/untitled8/code.c
+        -:    0:Graph:/mnt/c/Users/lior3/CLionProjects/untitled8/cmake-build-debug-wsl-coverage/CMakeFiles/Assembler.dir/code.c.gcno
+        -:    0:Data:/mnt/c/Users/lior3/CLionProjects/untitled8/cmake-build-debug-wsl-coverage/CMakeFiles/Assembler.dir/code.c.gcda
+        -:    0:Runs:1
+        -:    1:#include <stdio.h>
+        -:    2:#include <stdlib.h>
+        -:    3:#include <string.h>
+        -:    4:#include <ctype.h>
+        -:    5:#include "code.h"
+        -:    6:
+function splitString called 0 returned 0% blocks executed 0%
+    #####:    7:char** splitString( char* input,int *countWords,char *operands){
+    #####:    8:    char *str = strdup(input);
+    #####:    9:    int count = 0;
+        -:   10:    char* token;
+    #####:   11:    char** substrings = NULL;
+        -:   12:
+    #####:   13:    token= strtok(str, operands);
+    %%%%%:   13-block  0
+call    0 never executed
+        -:   14:
+    #####:   15:    while (token != NULL) {
+    %%%%%:   15-block  0
+branch  0 never executed
+branch  1 never executed
+    #####:   16:        substrings = realloc(substrings, (count + 1) * sizeof(char*));
+    #####:   17:        substrings[count] = strdup(token);
+    #####:   18:        count++;
+    #####:   19:        token = strtok(NULL, operands);
+    %%%%%:   19-block  0
+call    0 never executed
+        -:   20:    }
+    #####:   21:    substrings = realloc(substrings, (count + 1) * sizeof(char*));
+    #####:   22:    substrings[count] = NULL;
+    #####:   23:    *countWords = count;
+    #####:   24:    free(str);
+    #####:   25:    return substrings;
+    %%%%%:   25-block  0
+        -:   26:}
+function insertMacro called 0 returned 0% blocks executed 0%
+    #####:   27:void insertMacro(macroTable *macroTable, char *name, char *content,macro **currMacro) {
+        -:   28:
+        -:   29:    int i;
+        -:   30:    macro *newMacro;
+    #####:   31:    for (i = 0; i < macroTable->count; ++i) {
+    %%%%%:   31-block  0
+    %%%%%:   31-block  1
+    %%%%%:   31-block  2
+branch  0 never executed
+branch  1 never executed
+    #####:   32:        if (strcmp(macroTable->tableList[i]->name, name) == 0) {
+    %%%%%:   32-block  0
+branch  0 never executed
+branch  1 never executed
+    #####:   33:            printf("Error: Macro %s already defined\n", name);
+    %%%%%:   33-block  0
+call    0 never executed
+    #####:   34:            return;
+        -:   35:        }
+        -:   36:    }
+    #####:   37:      if (macroTable->count == macroTable->size){
+    %%%%%:   37-block  0
+branch  0 never executed
+branch  1 never executed
+    #####:   38:          macroTable= realloc(macroTable, (macroTable->size + TABLE_SIZE ) * sizeof(macroTable));
+    #####:   39:          macroTable->size += TABLE_SIZE;
+    %%%%%:   39-block  0
+        -:   40:      }
+    #####:   41:      newMacro = createNewMacro(name, content);
+    %%%%%:   41-block  0
+call    0 never executed
+    #####:   42:      macroTable->tableList[macroTable->count] = newMacro;
+    #####:   43:      macroTable->count++;
+    #####:   44:      *currMacro = newMacro;
+        -:   45:
+        -:   46:}
+function getMacroContent called 0 returned 0% blocks executed 0%
+    #####:   47:char* getMacroContent(macroTable * macroTable, char *substring){
+        -:   48:    int i;
+    #####:   49:    for (i = 0; i < macroTable->count; ++i) {
+    %%%%%:   49-block  0
+    %%%%%:   49-block  1
+    %%%%%:   49-block  2
+branch  0 never executed
+branch  1 never executed
+    #####:   50:        if (strcmp(macroTable->tableList[i]->name, substring) == 0) {
+    %%%%%:   50-block  0
+branch  0 never executed
+branch  1 never executed
+    #####:   51:            return macroTable->tableList[i]->content;
+    %%%%%:   51-block  0
+        -:   52:        }
+        -:   53:    }
+    #####:   54:    return NULL;
+    %%%%%:   54-block  0
+        -:   55:}
+function checkValidMacroName called 0 returned 0% blocks executed 0%
+    #####:   56:bool checkValidMacroName(macroTable *table, char *name, int lineNum){
+        -:   57:    int i;
+    #####:   58:    if (!isalpha(name[0])) {
+    %%%%%:   58-block  0
+branch  0 never executed
+branch  1 never executed
+    #####:   59:        printf("Error in lineStr %d: macro name must start with a letter\n",lineNum);
+    %%%%%:   59-block  0
+call    0 never executed
+    #####:   60:        return false;
+        -:   61:    }
+    #####:   62:    for (i = 0; i < table->count; ++i) {
+    %%%%%:   62-block  0
+    %%%%%:   62-block  1
+    %%%%%:   62-block  2
+branch  0 never executed
+branch  1 never executed
+    #####:   63:        if (strcmp(table->tableList[i]->name, name) == 0) {
+    %%%%%:   63-block  0
+branch  0 never executed
+branch  1 never executed
+    #####:   64:            printf("Error in lineStr %d: macro name already exists\n",lineNum);
+    %%%%%:   64-block  0
+call    0 never executed
+    #####:   65:            return false;
+        -:   66:        }
+        -:   67:    }
+    #####:   68:    for (i = 0; i < strlen(name); ++i) {
+    %%%%%:   68-block  0
+    %%%%%:   68-block  1
+    %%%%%:   68-block  2
+branch  0 never executed
+branch  1 never executed
+    #####:   69:        if (!isalpha(name[i]) && !isdigit(name[i])) {
+    %%%%%:   69-block  0
+branch  0 never executed
+branch  1 never executed
+    %%%%%:   69-block  1
+branch  2 never executed
+branch  3 never executed
+    #####:   70:            printf("Error in lineStr %d: macro name must contain only letters and numbers\n",lineNum);
+    %%%%%:   70-block  0
+call    0 never executed
+    #####:   71:            return false;
+        -:   72:        }
+        -:   73:    }
+    #####:   74:    if (!checkValidReservedName(name,lineNum)) {
+    %%%%%:   74-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    #####:   75:        return false;
+    %%%%%:   75-block  0
+        -:   76:    }
+    #####:   77:    return true;
+    %%%%%:   77-block  0
+        -:   78:}
+function checkValidReservedName called 0 returned 0% blocks executed 0%
+    #####:   79:bool checkValidReservedName(char *name,int lineNum){
+    #####:   80:    const char *reservedWords[] = {"@r0", "@r1", "@r2", "@r3", "@r4", "@r5", "@r6", "@r7",
+        -:   81:                                    "mov", "cmp", "add", "sub", "not", "clr", "lea",
+        -:   82:                                   "inc", "dec", "jmp", "bne", "red", "prn", "jsr", "rts", "stop",
+        -:   83:                                   ".data", ".string", ".entry", ".extern"};
+        -:   84:    int i;
+    #####:   85:    for (i = 0; i < 28; ++i) {
+    %%%%%:   85-block  0
+    %%%%%:   85-block  1
+    %%%%%:   85-block  2
+branch  0 never executed
+branch  1 never executed
+    #####:   86:        if (strcmp(name, reservedWords[i]) == 0) {
+    %%%%%:   86-block  0
+branch  0 never executed
+branch  1 never executed
+    #####:   87:            printf("Error in lineStr %d: label is a reserved word\n",lineNum);
+    %%%%%:   87-block  0
+call    0 never executed
+    #####:   88:            return false;
+        -:   89:        }
+        -:   90:    }
+    #####:   91:    return true;
+    %%%%%:   91-block  0
+        -:   92:}
+function createNewMacro called 0 returned 0% blocks executed 0%
+    #####:   93:macro *createNewMacro(const char *macroName, const char *macroContent){
+        -:   94:    macro *newMacro;
+    #####:   95:    ALLOCATE( newMacro, sizeof (macro) );
+    %%%%%:   95-block  0
+branch  0 never executed
+branch  1 never executed
+    %%%%%:   95-block  1
+call    2 never executed
+call    3 never executed
+    #####:   96:    ALLOCATE( newMacro->name,strlen(macroName) + 1 );
+    %%%%%:   96-block  0
+branch  0 never executed
+branch  1 never executed
+    %%%%%:   96-block  1
+call    2 never executed
+call    3 never executed
+    #####:   97:    ALLOCATE( newMacro->content, strlen(macroContent) + 1 );
+    %%%%%:   97-block  0
+branch  0 never executed
+branch  1 never executed
+    %%%%%:   97-block  1
+call    2 never executed
+call    3 never executed
+    #####:   98:    strcpy(newMacro->name, macroName);
+    #####:   99:    strcpy(newMacro->content , macroContent);
+    #####:  100:    return newMacro;
+    %%%%%:  100-block  0
+        -:  101:}
+function addContentToMacro called 0 returned 0% blocks executed 0%
+    #####:  102:void addContentToMacro(macro *currMacro, char *newContent){
+        -:  103:
+    #####:  104:    size_t currLen = strlen(currMacro->content);
+    #####:  105:    size_t newLen = strlen(newContent);
+        -:  106:    char* str ;
+    #####:  107:    ALLOCATE(str, currLen + newLen + 1);
+    %%%%%:  107-block  0
+branch  0 never executed
+branch  1 never executed
+    %%%%%:  107-block  1
+call    2 never executed
+call    3 never executed
+        -:  108:
+    #####:  109:    strcpy(str, currMacro->content);
+    #####:  110:    strcat(str, newContent);
+        -:  111:
+    #####:  112:    free(currMacro->content);
+    #####:  113:    currMacro->content = str;
+        -:  114:
+    #####:  115:}
+function checkComma called 0 returned 0% blocks executed 0%
+    #####:  116:bool checkComma(char* str) {
+    #####:  117:    bool consecutiveCommas = false;
+        -:  118:    int i;
+    #####:  119:    for ( i = 0; str[i] != '\0'; i++) {
+    %%%%%:  119-block  0
+    %%%%%:  119-block  1
+    %%%%%:  119-block  2
+branch  0 never executed
+branch  1 never executed
+    #####:  120:        if (str[i] == ',') {
+    %%%%%:  120-block  0
+branch  0 never executed
+branch  1 never executed
+    #####:  121:           if (consecutiveCommas) {
+    %%%%%:  121-block  0
+branch  0 never executed
+branch  1 never executed
+    #####:  122:               return true;
+    %%%%%:  122-block  0
+        -:  123:           }
+    #####:  124:           consecutiveCommas = true;
+    %%%%%:  124-block  0
+    #####:  125:        } else if (str[i] != ' ') {
+    %%%%%:  125-block  0
+branch  0 never executed
+branch  1 never executed
+    #####:  126:           consecutiveCommas = false;
+    %%%%%:  126-block  0
+        -:  127:        }
+        -:  128:    }
+    #####:  129:    return false;
+    %%%%%:  129-block  0
+        -:  130:}
+function removeDoubleWhitespaces called 0 returned 0% blocks executed 0%
+    #####:  131:void removeDoubleWhitespaces(char* str) {
+        -:  132:    int i, j;
+    #####:  133:    int length = strlen(str);
+    #####:  134:    int foundDoubleSpace = 0;
+    #####:  135:    for (i = 0, j = 0; i < length; ++i) {
+    %%%%%:  135-block  0
+    %%%%%:  135-block  1
+    %%%%%:  135-block  2
+branch  0 never executed
+branch  1 never executed
+    #####:  136:    if (isspace(str[i])) {
+    %%%%%:  136-block  0
+branch  0 never executed
+branch  1 never executed
+    #####:  137:       if(i == 0) {
+    %%%%%:  137-block  0
+branch  0 never executed
+branch  1 never executed
+    #####:  138:           continue;
+    %%%%%:  138-block  0
+        -:  139:       }
+    #####:  140:       if (foundDoubleSpace) {
+    %%%%%:  140-block  0
+branch  0 never executed
+branch  1 never executed
+    #####:  141:           continue;
+    %%%%%:  141-block  0
+        -:  142:       }
+    #####:  143:       foundDoubleSpace = true;
+    %%%%%:  143-block  0
+        -:  144:    } else {
+    #####:  145:       foundDoubleSpace = false;
+    %%%%%:  145-block  0
+        -:  146:    }
+        -:  147:
+    #####:  148:    str[j++] = str[i];
+    %%%%%:  148-block  0
+        -:  149:    }
+    #####:  150:    str[j] = '\0';
+    #####:  151:}
+function giveNameFile called 0 returned 0% blocks executed 0%
+    #####:  152:char * giveNameFile(char *filename, char *extension){
+    #####:  153:    char *newFileName = (char*) malloc((strlen(filename) + strlen(extension) + 1) * sizeof(char));
+    #####:  154:    if (newFileName == NULL){
+    %%%%%:  154-block  0
+branch  0 never executed
+branch  1 never executed
+    #####:  155:        printf("Error: malloc has failed\n");
+    %%%%%:  155-block  0
+call    0 never executed
+    #####:  156:        free(newFileName);
+    #####:  157:        return NULL;
+        -:  158:    }
+    #####:  159:    strcpy(newFileName, filename);
+    #####:  160:    strcat(newFileName, extension);
+    #####:  161:    return newFileName;
+    %%%%%:  161-block  0
+        -:  162:}

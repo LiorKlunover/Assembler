@@ -1,0 +1,109 @@
+        -:    0:Source:/mnt/c/Users/lior3/CLionProjects/untitled8/table.c
+        -:    0:Graph:/mnt/c/Users/lior3/CLionProjects/untitled8/cmake-build-debug-wsl-coverage/CMakeFiles/Assembler.dir/table.c.gcno
+        -:    0:Data:/mnt/c/Users/lior3/CLionProjects/untitled8/cmake-build-debug-wsl-coverage/CMakeFiles/Assembler.dir/table.c.gcda
+        -:    0:Runs:1
+        -:    1:#include "table.h"
+        -:    2:#include <stdio.h>
+        -:    3:#include <stdlib.h>
+        -:    4:
+function creatMacroTable called 1 returned 100% blocks executed 100%
+        1:    5:macroTable *creatMacroTable(){
+        -:    6:    int i;
+        1:    7:    macroTable *macroTable =  malloc(sizeof(macroTable));
+        1:    8:    macroTable->tableList = malloc(TABLE_SIZE * sizeof(macro*));
+        1:    9:    macroTable->size = TABLE_SIZE;
+        1:   10:    macroTable->count = 0;
+       11:   11:    for (i = 0; i < TABLE_SIZE; ++i) {
+        1:   11-block  0
+       11:   11-block  1
+branch  0 taken 10
+branch  1 taken 1 (fallthrough)
+       10:   12:        macroTable->tableList[i] = NULL;
+       10:   12-block  0
+        -:   13:    }
+        1:   14:    return macroTable;
+        1:   14-block  0
+        -:   15:}
+function creatSymbolTable called 1 returned 100% blocks executed 64%
+        1:   16:symbolTable *creatSymbolTable(){
+        -:   17:    int i;
+        1:   18:    symbolTable *symbolTable = NULL;
+       1*:   19:    ALLOCATE(symbolTable, sizeof(symbolTable));
+        1:   19-block  0
+branch  0 taken 0 (fallthrough)
+branch  1 taken 1
+    %%%%%:   19-block  1
+call    2 never executed
+call    3 never executed
+       1*:   20:    ALLOCATE(symbolTable->labels, 10 * sizeof(label*));
+        1:   20-block  0
+branch  0 taken 0 (fallthrough)
+branch  1 taken 1
+    %%%%%:   20-block  1
+call    2 never executed
+call    3 never executed
+        1:   21:    symbolTable->size = 10;
+        1:   22:    symbolTable->capacity = 0;
+       11:   23:    for (i = 0; i < TABLE_SIZE; ++i) {
+        1:   23-block  0
+       11:   23-block  1
+branch  0 taken 10
+branch  1 taken 1 (fallthrough)
+       10:   24:        symbolTable->labels[i] = NULL;
+       10:   24-block  0
+        -:   25:    }
+        1:   26:    return symbolTable;
+        1:   26-block  0
+        -:   27:}
+function createLexStruct called 1 returned 100% blocks executed 64%
+        1:   28:lexTable *createLexStruct(){
+        -:   29:    int i;
+        1:   30:    lexTable *lexTable = NULL;
+       1*:   31:    ALLOCATE(lexTable, sizeof(lexTable));
+        1:   31-block  0
+branch  0 taken 0 (fallthrough)
+branch  1 taken 1
+    %%%%%:   31-block  1
+call    2 never executed
+call    3 never executed
+       1*:   32:    ALLOCATE(lexTable->lexStructList,TABLE_SIZE * sizeof(lexStruct*));
+        1:   32-block  0
+branch  0 taken 0 (fallthrough)
+branch  1 taken 1
+    %%%%%:   32-block  1
+call    2 never executed
+call    3 never executed
+        1:   33:    lexTable->size = TABLE_SIZE;
+        1:   34:    lexTable->capacity = 0;
+       11:   35:    for (i = 0; i < TABLE_SIZE; ++i) {
+        1:   35-block  0
+       11:   35-block  1
+branch  0 taken 10
+branch  1 taken 1 (fallthrough)
+       10:   36:        lexTable->lexStructList[i] = NULL;
+       10:   36-block  0
+        -:   37:    }
+        1:   38:    return lexTable;
+        1:   38-block  0
+        -:   39:}
+function reallocateLexTable called 0 returned 0% blocks executed 0%
+    #####:   40:void reallocateLexTable(lexTable *lexTable){
+        -:   41:    int i;
+    #####:   42:    lexTable->size +=  TABLE_SIZE;
+    #####:   43:    REALLOCTION(*lexTable->lexStructList, lexTable->size);
+    %%%%%:   43-block  0
+branch  0 never executed
+branch  1 never executed
+    %%%%%:   43-block  1
+    %%%%%:   43-block  2
+call    2 never executed
+call    3 never executed
+    #####:   44:    for (i = lexTable->capacity; i < lexTable->size; ++i) {
+    %%%%%:   44-block  0
+    %%%%%:   44-block  1
+branch  0 never executed
+branch  1 never executed
+    #####:   45:        lexTable->lexStructList[i] = NULL;
+    %%%%%:   45-block  0
+        -:   46:    }
+    #####:   47:}

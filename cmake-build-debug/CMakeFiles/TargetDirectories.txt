@@ -1,0 +1,3 @@
+/mnt/c/Users/lior3/CLionProjects/untitled8/cmake-build-debug/CMakeFiles/untitled8.dir
+/mnt/c/Users/lior3/CLionProjects/untitled8/cmake-build-debug/CMakeFiles/edit_cache.dir
+/mnt/c/Users/lior3/CLionProjects/untitled8/cmake-build-debug/CMakeFiles/rebuild_cache.dir

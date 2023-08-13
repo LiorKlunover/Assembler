@@ -1,0 +1,219 @@
+        -:    0:Source:/mnt/c/Users/lior3/CLionProjects/untitled8/preAssembler.c
+        -:    0:Graph:/mnt/c/Users/lior3/CLionProjects/untitled8/cmake-build-debug-wsl-coverage/CMakeFiles/Assembler.dir/preAssembler.c.gcno
+        -:    0:Data:/mnt/c/Users/lior3/CLionProjects/untitled8/cmake-build-debug-wsl-coverage/CMakeFiles/Assembler.dir/preAssembler.c.gcda
+        -:    0:Runs:1
+        -:    1:#include <stdio.h>
+        -:    2:#include <stdlib.h>
+        -:    3:#include <ctype.h>
+        -:    4:#include "preAssembler.h"
+        -:    5:
+function preProcessFile called 0 returned 0% blocks executed 0%
+    #####:    6:bool preProcessFile( char *filename, macroTable *macroTable){
+        -:    7:    FILE *fp;
+        -:    8:    FILE *newFile;
+    #####:    9:    bool error = true;
+    #####:   10:    char  *filenameAs = giveNameFile(filename, ".as");
+    %%%%%:   10-block  0
+call    0 never executed
+    #####:   11:    char  *filenameAm = giveNameFile(filename, ".am");
+call    0 never executed
+        -:   12:
+        -:   13:    /*fp = fopen(filenameAs, "r");*/
+    #####:   14:    fp = fopen("C:\\Users\\lior3\\CLionProjects\\Assembler\\test1.as", "r");
+call    0 never executed
+        -:   15:
+    #####:   16:    if (fp == NULL) {
+branch  0 never executed
+branch  1 never executed
+    #####:   17:        printf("Error: file %s cannot be opened\n", filename);
+    %%%%%:   17-block  0
+call    0 never executed
+    #####:   18:        free(filenameAs);
+    #####:   19:        free(filenameAm);
+    #####:   20:        return false;
+        -:   21:    }
+    #####:   22:    newFile = fopen(filenameAm, "w");
+    %%%%%:   22-block  0
+call    0 never executed
+        -:   23:
+    #####:   24:    if (newFile == NULL) {
+branch  0 never executed
+branch  1 never executed
+    #####:   25:        printf("Unable to create the file.\n");
+    %%%%%:   25-block  0
+call    0 never executed
+    #####:   26:        free(filenameAs);
+    #####:   27:        free(filenameAm);
+    #####:   28:        fclose(fp);
+call    0 never executed
+    #####:   29:        return false;
+        -:   30:    }
+        -:   31:
+    #####:   32:    printf("File %s read in pre processed\n", filename);
+    %%%%%:   32-block  0
+call    0 never executed
+    #####:   33:    error = lineProcess(fp, newFile, macroTable);
+call    0 never executed
+        -:   34:
+    #####:   35:    fclose(newFile);
+call    0 never executed
+    #####:   36:    fclose(fp);
+call    0 never executed
+        -:   37:
+    #####:   38:    free(filenameAs);
+    #####:   39:    free(filenameAm);
+    #####:   40:    return error;
+        -:   41:}
+        -:   42:
+function lineProcess called 0 returned 0% blocks executed 0%
+    #####:   43:bool lineProcess(FILE *fp,  FILE *newFile, macroTable *macroTable){
+        -:   44:    char *currLine,*content;
+    #####:   45:    int index ,countWords,lineNum = 0;
+        -:   46:    lineStr *lineContent;
+    #####:   47:    macro **currMakro= malloc(sizeof(macro));
+    #####:   48:    bool error = true, inMacroMode = false;
+    #####:   49:    ALLOCATE(lineContent, sizeof(lineStr));
+    %%%%%:   49-block  0
+branch  0 never executed
+branch  1 never executed
+    %%%%%:   49-block  1
+call    2 never executed
+call    3 never executed
+    #####:   50:    ALLOCATE(currLine, MAX_LINE_LENGTH);
+    %%%%%:   50-block  0
+branch  0 never executed
+branch  1 never executed
+    %%%%%:   50-block  1
+call    2 never executed
+call    3 never executed
+        -:   51:
+    #####:   52:    if (currLine == NULL){
+    %%%%%:   52-block  0
+branch  0 never executed
+branch  1 never executed
+    #####:   53:        printf("Error: malloc has failed\n");
+    %%%%%:   53-block  0
+call    0 never executed
+    #####:   54:        return false;
+        -:   55:    }
+    #####:   56:    while (fgets(currLine, MAX_LINE_LENGTH, fp) != NULL) {
+    %%%%%:   56-block  0
+    %%%%%:   56-block  1
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    #####:   57:        index= 0;
+    #####:   58:        lineNum++;
+    #####:   59:        SKIP_WHITE(currLine, index)
+    %%%%%:   59-block  0
+call    0 never executed
+    %%%%%:   59-block  1
+    %%%%%:   59-block  2
+branch  1 never executed
+branch  2 never executed
+    %%%%%:   59-block  3
+branch  3 never executed
+branch  4 never executed
+    %%%%%:   59-block  4
+branch  5 never executed
+branch  6 never executed
+    %%%%%:   59-block  5
+branch  7 never executed
+branch  8 never executed
+    %%%%%:   59-block  6
+branch  9 never executed
+branch 10 never executed
+    %%%%%:   59-block  7
+branch 11 never executed
+branch 12 never executed
+    %%%%%:   59-block  8
+    #####:   60:        lineContent->lineContent = splitString(currLine, &countWords, " \n");
+    %%%%%:   60-block  0
+call    0 never executed
+    #####:   61:        lineContent->lineNum = lineNum;
+    #####:   62:        lineContent->size = countWords;
+        -:   63:
+    #####:   64:        if (countWords == 1 && (content = getMacroContent(macroTable, lineContent->lineContent[0])) != NULL){
+branch  0 never executed
+branch  1 never executed
+    %%%%%:   64-block  0
+call    2 never executed
+branch  3 never executed
+branch  4 never executed
+    #####:   65:            fputs(content, newFile);
+    %%%%%:   65-block  0
+call    0 never executed
+    #####:   66:            continue;
+        -:   67:        }
+    #####:   68:        if(inMacroMode){
+    %%%%%:   68-block  0
+branch  0 never executed
+branch  1 never executed
+    #####:   69:            if (strstr(currLine,"endmcro") != 0){
+    %%%%%:   69-block  0
+branch  0 never executed
+branch  1 never executed
+    #####:   70:                if (countWords != 1 || strcmp(lineContent->lineContent[0],"endmcro") != 0){
+    %%%%%:   70-block  0
+branch  0 never executed
+branch  1 never executed
+    %%%%%:   70-block  1
+branch  2 never executed
+branch  3 never executed
+    #####:   71:                    printf("Error in lineStr %d: invalid macro definition\n",lineContent->lineNum);
+    %%%%%:   71-block  0
+call    0 never executed
+    #####:   72:                    return false;
+        -:   73:                }
+    #####:   74:                inMacroMode = false;
+    #####:   75:                continue;
+    %%%%%:   75-block  0
+        -:   76:            }
+    #####:   77:            addContentToMacro(*currMakro, currLine + index);
+    %%%%%:   77-block  0
+call    0 never executed
+    #####:   78:            continue;
+        -:   79:        }
+        -:   80:
+    #####:   81:        if (strstr(currLine,"mcro") != 0){
+    %%%%%:   81-block  0
+branch  0 never executed
+branch  1 never executed
+        -:   82:
+    #####:   83:            if(countWords != 2 || strcmp(lineContent->lineContent[0],"mcro") != 0){
+    %%%%%:   83-block  0
+branch  0 never executed
+branch  1 never executed
+    %%%%%:   83-block  1
+branch  2 never executed
+branch  3 never executed
+    #####:   84:                printf("Error in lineStr %d: invalid macro definition\n",lineContent->lineNum);
+    %%%%%:   84-block  0
+call    0 never executed
+    #####:   85:                return false;
+        -:   86:            }
+    #####:   87:            if (!checkValidMacroName(macroTable, lineContent->lineContent[1], lineContent->lineNum)){
+    %%%%%:   87-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    #####:   88:                return false;
+    %%%%%:   88-block  0
+        -:   89:            }
+    #####:   90:            inMacroMode = true;
+    #####:   91:           insertMacro(macroTable, lineContent->lineContent[1], "", currMakro);
+    %%%%%:   91-block  0
+call    0 never executed
+    #####:   92:            continue;
+        -:   93:        }
+        -:   94:
+    #####:   95:        fputs(currLine + index, newFile);
+    %%%%%:   95-block  0
+call    0 never executed
+        -:   96:    }
+    #####:   97:    free(currLine);
+    #####:   98:    free(lineContent);
+    #####:   99:    free(currMakro);
+    #####:  100:    return true;
+    %%%%%:  100-block  0
+        -:  101:}
