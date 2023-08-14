@@ -18,7 +18,7 @@ bool secondPass(char *fileName, lexTable *lexList, symbolTable *labelList){
     MAKE_TYPE_CONTENT_TABLE(entryFileContentList)
 
     while(i < lexList->capacity) {
-        currLex = lexList->lexStructList[i++];
+        currLex = lexList->content[i++];
         if (currLex->label != NULL) {
             if (currLex->label->defineType == notEntryOrExtern || currLex->label->defineType == operandDefined || !currLex->label->defined ) {
                 printf("Error in line %d: label \"%s\" is not defined\n", i, currLex->label->symbolName);
@@ -45,30 +45,32 @@ bool secondPass(char *fileName, lexTable *lexList, symbolTable *labelList){
                     insertObjectFileContent(objectFileContentList, currLex->lexType.dirType.dirUnionContent.stringType[j]);
                     j++;
                 }
-            }else if(currLex->lexType.dirType.lexDirType==lexDirEntry){
-
-            }else if(currLex->lexType.dirType.lexDirType==lexDirEntry){
-
             }
         }
     }
     makeObjectFile(objectFileContentList, fileName);
     makeExternFile(externFileContentList, fileName);
     makeEntryFile(labelList, fileName);
+   free(currLex);
+    free(objectFileContentList->content);
+    free(objectFileContentList);
+    FREE_STRUCT(externFileContentList, externFileContentList);
+    FREE_STRUCT(entryFileContentList, entryFileContentList);
+
 return true;
 }
 bool getOperandByte(lexStruct *currLex,objectFileContent *objectFileContent,int operandNumber,int lineNum,symbolTable *labelList,externFileContent *externFileContentList) {
     int bit;
-    if (currLex->lexType.instType.asm_inst_sets.twoOpeInstType.arrOpType[operandNumber] != -1 ) {
-        if(currLex->lexType.instType.asm_inst_sets.twoOpeInstType.arrOpType[operandNumber] == labelType) {
-            if ((bit = currLex->lexType.instType.asm_inst_sets.twoOpeInstType.arrOpName[operandNumber].label->address) == 0) {
-                if ((bit = getLabelAddress(currLex->lexType.instType.asm_inst_sets.twoOpeInstType.arrOpName[operandNumber].label->symbolName, labelList)) == -1){
-                    printf("Error in line %d: label \"%s\" is not defined\n", lineNum, currLex->lexType.instType.asm_inst_sets.twoOpeInstType.arrOpName[operandNumber].label->symbolName);
+    if (currLex->lexType.instType.OpeInstTypes.arrOpType[operandNumber] != -1 ) {
+        if(currLex->lexType.instType.OpeInstTypes.arrOpType[operandNumber] == labelType) {
+            if ((bit = currLex->lexType.instType.OpeInstTypes.arrOpName[operandNumber].label->address) == 0) {
+                if ((bit = getLabelAddress(currLex->lexType.instType.OpeInstTypes.arrOpName[operandNumber].label->symbolName, labelList)) == -1){
+                    printf("Error in line %d: label \"%s\" is not defined\n", lineNum, currLex->lexType.instType.OpeInstTypes.arrOpName[operandNumber].label->symbolName);
                     return false;
                 }
             }
-            if (currLex->lexType.instType.asm_inst_sets.twoOpeInstType.arrOpName[operandNumber].label->defineType == externLabel ){
-                insertToExternContent(externFileContentList, currLex->lexType.instType.asm_inst_sets.twoOpeInstType.arrOpName[operandNumber].label->symbolName, count);
+            if (currLex->lexType.instType.OpeInstTypes.arrOpName[operandNumber].label->defineType == externLabel ){
+                insertToExternContent(externFileContentList, currLex->lexType.instType.OpeInstTypes.arrOpName[operandNumber].label->symbolName, count);
             }
             if (operandNumber == 0) {
                 bit <<= 2;
@@ -81,7 +83,7 @@ bool getOperandByte(lexStruct *currLex,objectFileContent *objectFileContent,int 
             }
         }if (operandNumber == 1 ){
             insertObjectFileContent(objectFileContent, currLex->lexType.instType.lineByteCodeData.targetOpByteCode);
-        }else if (operandNumber == 0 && !(currLex->lexType.instType.asm_inst_sets.twoOpeInstType.arrOpType[0] == registerType && currLex->lexType.instType.asm_inst_sets.twoOpeInstType.arrOpType[1] == registerType)){
+        }else if (operandNumber == 0 && !(currLex->lexType.instType.OpeInstTypes.arrOpType[0] == registerType && currLex->lexType.instType.OpeInstTypes.arrOpType[1] == registerType)){
             insertObjectFileContent(objectFileContent, currLex->lexType.instType.lineByteCodeData.sourceOpByteCode);
         }
     }
@@ -90,9 +92,9 @@ bool getOperandByte(lexStruct *currLex,objectFileContent *objectFileContent,int 
 int getLabelAddress(char *label,symbolTable *symbolTable){
     int i=0;
     while(i <= symbolTable->capacity){
-        if(strcmp(symbolTable->labels[i]->symbolName,label) == 0){
-            if (symbolTable->labels[i]->address!=0){
-                return symbolTable->labels[i]->address;
+        if(strcmp(symbolTable->content[i]->symbolName, label) == 0){
+            if (symbolTable->content[i]->address != 0){
+                return symbolTable->content[i]->address;
             }else{
                 printf("Error: label %s Adress not found` is not defined\n",label);
                 break;
@@ -181,8 +183,8 @@ void makeEntryFile(symbolTable *labelList, char *fileName){
         return;
     }
     for (i = 0; i < labelList->capacity; ++i) {
-        if (labelList->labels[i]->defineType == entryLabel) {
-            sprintf(str, "%s %d", labelList->labels[i]->symbolName, labelList->labels[i]->address);
+        if (labelList->content[i]->defineType == entryLabel) {
+            sprintf(str, "%s %d", labelList->content[i]->symbolName, labelList->content[i]->address);
             fprintf(fp, "%s\n", str);
         }
     }

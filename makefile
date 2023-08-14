@@ -1,7 +1,7 @@
 Assembler: Assembler.o preAssembler.o code.o table.o firstPass.o lexer.o secondPass.o
 	gcc -Wall -ansi -pedantic preAssembler.o firstPass.o lexer.o Assembler.o secondPass.o code.o table.o -o Assembler
 Assembler.o: Assembler.c preAssembler.h globals.h
-	gcc -c -Wall -ansi -pedantic Assembler.c -o Assembler.o
+	gcc  -c -Wall -ansi -pedantic Assembler.c -o Assembler.o
 preAssembler.o: preAssembler.c preAssembler.h globals.h
 	gcc -c -Wall -ansi -pedantic preAssembler.c  -o preAssembler.o
 code.o: code.c code.h table.h globals.h

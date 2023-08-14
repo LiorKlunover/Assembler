@@ -12,9 +12,9 @@ lexStruct * getLexTreePosition(lineStr *line, symbolTable *labelTable, int * IC,
     label *currLabel = NULL;
     char *token =NULL,*ptr = NULL;
     int len = 0,index = 0;
-    ALLOCATE(lexTree, sizeof(lexStruct));
-    ALLOCATE(ptr, MAX_LINE_LENGTH);
+    lexTree = malloc(sizeof(lexStruct));
     lexTree->label = NULL;
+    ptr= malloc(sizeof(char) * MAX_LINE_LENGTH);
 
     for(index = 0; index < line->size; index++) {
 
@@ -25,6 +25,8 @@ lexStruct * getLexTreePosition(lineStr *line, symbolTable *labelTable, int * IC,
         if (len > 0 && ptr[len-1]  == ':') {
             ptr[len-1] = '\0';
             if (!isValidLabel(ptr, line->lineNum, labelTable, macroTable)) {
+                free(ptr);
+                free(lexTree);
                 return NULL;
             }
             if (strlen(*lineC)>index+1 && (strstr(lineC[index+1],"extern")  || strstr(lineC[index+1],"entry"))){
@@ -32,17 +34,23 @@ lexStruct * getLexTreePosition(lineStr *line, symbolTable *labelTable, int * IC,
                 continue;
             }
             if((currLabel = getLabel(ptr, labelTable)) == NULL){
-                insertLabelTable(ptr, labelTable, line->lineNum, &lexTree->label, notEntryOrExtern,true);
+                insertLabelTable(ptr, labelTable, &lexTree->label, notEntryOrExtern,true);
             }else if (currLabel->defineType == notEntryOrExtern ){
                 printf("Error in line: %d , label was define before \n", line->lineNum);
+                free(ptr);
+                free(lexTree);
                 return NULL;
             } else if(currLabel->defineType == externLabel){
                 printf("Error in line: %d ,can't define extern label  \n", line->lineNum);
+                free(ptr);
+                free(lexTree);
                 return NULL;
             }else if(currLabel->defineType == operandDefined){
                 currLabel->defineType = notEntryOrExtern;
             }else if(currLabel->address != 0){
                 printf("Error in line: %d ,label was define before \n", line->lineNum);
+                free(ptr);
+                free(lexTree);
                 return NULL;
             }
             if(currLabel != NULL && !currLabel->defined){
@@ -64,6 +72,9 @@ lexStruct * getLexTreePosition(lineStr *line, symbolTable *labelTable, int * IC,
                 lexTree->lexType.dirType.lexDirType = lexDirExtern;
             } else {
                 printf("Error in lineStr %d: invalid directive\n", line->lineNum);
+                free(ptr);
+                free(lexTree);
+
                 return NULL;
             }
             lexTree->lineType = lexDir;
@@ -71,9 +82,15 @@ lexStruct * getLexTreePosition(lineStr *line, symbolTable *labelTable, int * IC,
             continue;
         }
         else if (dirFlag) {
+            while (++index<line->size){
+                strcat(ptr, " ");
+                strcat(ptr, lineC[index]);
+            }
             if (lexTree->lexType.dirType.lexDirType == lexDirData){
                 if(!getData(ptr, lexTree->lexType.dirType.dirUnionContent.dataType.numArray,
-                        &lexTree->lexType.dirType.dirUnionContent.dataType.numCount, &line->lineNum,lexTree->label)){
+                        &lexTree->lexType.dirType.dirUnionContent.dataType.numCount, &line->lineNum)){
+                    free(ptr);
+                    free(lexTree);
                     return NULL;
                 }
                 if (labelFlag) {
@@ -83,12 +100,15 @@ lexStruct * getLexTreePosition(lineStr *line, symbolTable *labelTable, int * IC,
                     lexTree->label->address = *DC+100+*IC;
                 }
                 *DC += lexTree->lexType.dirType.dirUnionContent.dataType.numCount;
+
             } else if (lexTree->lexType.dirType.lexDirType == lexDirString) {
-                if (ptr[0] != '"'|| ptr[len-1] != '"') {
+                if (ptr[0] != '"'|| ptr[strlen(ptr)-1] != '"') {
                     printf("Error in lineStr %d: invalid string\n", line->lineNum);
+                    free(ptr);
+                    free(lexTree);
                     return NULL;
                 }
-                ptr[len-1] = '\0';
+                ptr[strlen(ptr)-1] = '\0';
                 ptr++;
                 strcpy(lexTree->lexType.dirType.dirUnionContent.stringType,ptr );
                 makeStringBitArray( ptr,lexTree->lexType.dirType.dirBitArray);
@@ -99,22 +119,26 @@ lexStruct * getLexTreePosition(lineStr *line, symbolTable *labelTable, int * IC,
                     lexTree->label->address = *DC+100 + *IC;
                 }
                 *DC += strlen(ptr)+1;
+
             }else if (lexTree->lexType.dirType.lexDirType == lexDirEntry) {
                 if((currLabel = getLabel(ptr, labelTable)) == NULL){
-                    insertLabelTable(ptr, labelTable, line->lineNum,&lexTree->label,entryLabel,false);
+                    insertLabelTable(ptr, labelTable,&lexTree->label,entryLabel,false);
                 }else if(currLabel->defineType == notEntryOrExtern ||currLabel->defineType == operandDefined){
                         currLabel->defineType = entryLabel;
                 }else if(currLabel->defineType == entryLabel){
                     printf("Warning in line: %d , label was define before \n", line->lineNum);
                 }else {
                     printf("Error in line: %d , label was define as extern \n", line->lineNum);
+                    free(ptr);
+                    free(lexTree);
                     return NULL;
                 }
+
             }else if (lexTree->lexType.dirType.lexDirType == lexDirExtern) {
                 token = strtok(ptr, " ,");
                 while (token != NULL) {
                     if ((currLabel = getLabel(token, labelTable)) == NULL) {
-                        insertLabelTable(token, labelTable, line->lineNum, &lexTree->label, externLabel,false);
+                        insertLabelTable(token, labelTable, &lexTree->label, externLabel,false);
                         currLabel = getLabel(token, labelTable);
                     } else if (currLabel->defineType == notEntryOrExtern || currLabel->defineType == operandDefined) {
                         currLabel->defineType = externLabel;
@@ -122,6 +146,8 @@ lexStruct * getLexTreePosition(lineStr *line, symbolTable *labelTable, int * IC,
                         printf("Warning in line: %d , label was define before \n", line->lineNum);
                     } else {
                         printf("Error in line: %d , label was define as entry \n", line->lineNum);
+                        free(ptr);
+                        free(lexTree);
                         return NULL;
                     }
                     currLabel->address = 1;
@@ -129,12 +155,14 @@ lexStruct * getLexTreePosition(lineStr *line, symbolTable *labelTable, int * IC,
                 }
             }else {
                 printf("Error in lineStr %d: invalid directive\n", line->lineNum);
+                free(ptr);
+                free(lexTree);
                 return NULL;
             }
         } else if (( instName = (opCode)getOpCode(ptr, &line->lineNum,&lexTree->lexType.instType.numOfOperands)) != -1) {
                 lexTree->lexType.instType.instName = instName;
-                lexTree->lexType.instType.asm_inst_sets.twoOpeInstType.arrOpType[0] = -1;
-                lexTree->lexType.instType.asm_inst_sets.twoOpeInstType.arrOpType[1] = -1;
+                lexTree->lexType.instType.OpeInstTypes.arrOpType[0] = -1;
+                lexTree->lexType.instType.OpeInstTypes.arrOpType[1] = -1;
                 instFlag = true;
                 if (labelFlag) {
                     if(lexTree->label == NULL)
@@ -144,19 +172,31 @@ lexStruct * getLexTreePosition(lineStr *line, symbolTable *labelTable, int * IC,
                 *IC += 1 + lexTree->lexType.instType.numOfOperands;
                 lexTree->lineType = lexInst;
         }else if(instFlag){
+            while (++index<line->size){
+                strcat(ptr, lineC[index]);
+            }
             if (!getOperands(ptr,lexTree ,&line->lineNum, labelTable, macroTable)){
+                free(ptr);
+                free(lexTree);
                 return NULL;
             }
-            if(lexTree->lexType.instType.asm_inst_sets.twoOpeInstType.arrOpType[0] == registerType && lexTree->lexType.instType.asm_inst_sets.twoOpeInstType.arrOpType[1] == registerType){
+            if(lexTree->lexType.instType.OpeInstTypes.arrOpType[0] == registerType && lexTree->lexType.instType.OpeInstTypes.arrOpType[1] == registerType){
                 --(*IC);
             }
-        } else
+        } else{
+            printf("Error in line: %d , invalid input \n", line->lineNum);
+            free(ptr);
+            free(lexTree);
             return NULL;
+        }
+
     }
     if (instFlag){
-        if (!checkOperandOrder(lexTree->lexType.instType.instName,lexTree->lexType.instType.asm_inst_sets.twoOpeInstType.arrOpType,
+        if (!checkOperandOrder(lexTree->lexType.instType.instName,lexTree->lexType.instType.OpeInstTypes.arrOpType,
                                &line->lineNum)){
             printf("Error in line: %d , invalid operand \n", line->lineNum);
+            free(ptr);
+            free(lexTree);
             return NULL;
         }
     }
@@ -164,13 +204,13 @@ lexStruct * getLexTreePosition(lineStr *line, symbolTable *labelTable, int * IC,
 }
 
 bool getOperands(char *str , lexStruct *lexTree, int *lineNum, symbolTable *labelTable, macroTable *macroTable){
-    operandAddrTypeName tempArrOpName;
-    char *token = strtok(str, ",");
     int num;
-    operandAddrType  tempArrOpType=-1;
-
+    operandAddrTypeName tempArrOpName;
+    char *token = strdup(str);
+    operandAddrType tempArrOpType = -1;
+    strtok(token, ",");
     while (token != NULL) {
-        if (lexTree->lexType.instType.asm_inst_sets.twoOpeInstType.arrOpType[0] != -1){
+        if (lexTree->lexType.instType.OpeInstTypes.arrOpType[0] != -1){
             printf("Error in line: %d , too many operands \n", *lineNum);
             return false;
         }
@@ -180,12 +220,14 @@ bool getOperands(char *str , lexStruct *lexTree, int *lineNum, symbolTable *labe
                 tempArrOpName.reg = token[2]-'0';
             }else{
                 printf("Error in line: %d , invalid register \n", *lineNum);
+
                 return false;
             }
         }
         else if(getNumber(token,&num)){
             if (num > MAX_DATA_VALUE || num < MIN_DATA_VALUE) {
                 printf("Error in line: %d , immediate value is out of range \n", *lineNum);
+
                 return false;
             }
             tempArrOpType = immediate;
@@ -194,21 +236,24 @@ bool getOperands(char *str , lexStruct *lexTree, int *lineNum, symbolTable *labe
         else if(isValidLabel(token,*lineNum,labelTable,macroTable)){
             tempArrOpType = labelType;
             if ((tempArrOpName.label = getLabel(token, labelTable)) == NULL) {
-                insertLabelTable(token, labelTable, *lineNum, &tempArrOpName.label, operandDefined,false);
+                insertLabelTable(token, labelTable, &tempArrOpName.label, operandDefined,false);
             }
         }
         else{
             printf("Error in line: %d , invalid operand \n", *lineNum);
+
             return false;
         }
-        if ( lexTree->lexType.instType.asm_inst_sets.twoOpeInstType.arrOpType[1]!= -1){
-            lexTree->lexType.instType.asm_inst_sets.twoOpeInstType.arrOpType[0] = lexTree->lexType.instType.asm_inst_sets.twoOpeInstType.arrOpType[1];
-            lexTree->lexType.instType.asm_inst_sets.twoOpeInstType.arrOpName[0] = lexTree->lexType.instType.asm_inst_sets.twoOpeInstType.arrOpName[1] ;
+        if (lexTree->lexType.instType.OpeInstTypes.arrOpType[1] != -1){
+            lexTree->lexType.instType.OpeInstTypes.arrOpType[0] = lexTree->lexType.instType.OpeInstTypes.arrOpType[1];
+            lexTree->lexType.instType.OpeInstTypes.arrOpName[0] = lexTree->lexType.instType.OpeInstTypes.arrOpName[1] ;
         }
-        lexTree->lexType.instType.asm_inst_sets.twoOpeInstType.arrOpType[1] = tempArrOpType;
-        lexTree->lexType.instType.asm_inst_sets.twoOpeInstType.arrOpName[1] = tempArrOpName;
+        lexTree->lexType.instType.OpeInstTypes.arrOpType[1] = tempArrOpType;
+        lexTree->lexType.instType.OpeInstTypes.arrOpName[1] = tempArrOpName;
+
         token = strtok(NULL, ",");
     }
+
     return true;
 
 }
@@ -289,42 +334,70 @@ int getOpCode(char *str,int *lineNum,int *numOfOperands){
             }
         }
         for (i = 0; i < 16; ++i) {
-            if (strcmp(opCode[i], str) == 0){
-              return  i;
-        }
+                if (strcmp(opCode[i], str) == 0){
+                  return  i;
+                }
         }
         return -1;
 }
-bool getData(const char *inputString, int *numArray, int *numCount,int *lineNum,label *label) {
-        char buffer[100];
-        char *token=NULL;
-        int count;
-        strcpy(buffer, inputString);
-        if (!isalnum(inputString[0]) || !isalnum(inputString[strlen(inputString) - 1] )) {
-            printf("Error in lineStr %d: invalid data\n", *lineNum);
+bool getData(const char *inputString, int *numArray, int *numCount,int *lineNum) {
+        char *token;
+        char *copy = strdup(inputString);
+        token = strtok(copy, ",");
+    while (token != NULL) {
+        if (*numCount >= MAX_DATA_VALUE) {
+            printf("Error in line %d: Exceeded maximum number of values\n", *lineNum);
+            if (copy != NULL) {
+                free(copy);
+            }
             return false;
         }
-        token = strtok(buffer, ",");
-        count = 0;
 
-        while (token != NULL && count < 3) {
-            if ((count > 0 && token == inputString) || (count > 0 && token[0] == '\0')) {
-                return false;
+        if (!isValidNumber(token)) {
+            printf("Error in line %d: Not a valid number\n", *lineNum);
+            if (copy != NULL) {
+                free(copy);
             }
-            numArray[count] = atoi(token);
-
-            if (numArray[count] > MAX_DATA_VALUE || numArray[count] < MIN_DATA_VALUE) {
-                printf("Error in lineStr %d: data value is out of range\n", *lineNum);
-                return false;
-            }
-            if (count == 0 && label != NULL){
-                label->data = numArray[count];
-            }
-            token = strtok(NULL, ",");
-            count++;
+            return false;
         }
-        *numCount = count;
+        numArray[*numCount] = atoi(token);
+
+        (*numCount)++;
+
+        if (numArray[*numCount] > MAX_DATA_VALUE || numArray[*numCount] < MIN_DATA_VALUE) {
+            printf("Error in line %d: Exceeded maximum number of values\n", *lineNum);
+            if (copy != NULL) {
+                free(copy);
+            }
+            return false;
+        }
+        token = strtok(NULL, ",");
+    }
+    if (numCount == 0) {
+        printf("Error in line %d: No valid numbers found\n", *lineNum);
+
+    }
+
+    if (copy != NULL) {
+        free(copy);
+    }
     return true;
+}
+int isValidNumber(char *str) {
+    if (*str == ' ') {
+        str++;
+    }
+    if (str[strlen(str) - 1] == ' ') {
+        str[strlen(str) - 1] = '\0';
+    }
+
+    while (*str != '\0') {
+        if (!isdigit(*str) && *str != '-') {
+            return 0;
+        }
+        str++;
+    }
+    return 1;
 }
 void makeStringBitArray(char *str ,bitLine *stringBitArray){
     int i;
@@ -358,15 +431,15 @@ label *getLabel(char *label, symbolTable *labelList){
     char *temp = NULL ;
     int i = 0;
     for (i = 0; i < labelList->capacity; ++i) {
-        temp = labelList->labels[i]->symbolName;
+        temp = labelList->content[i]->symbolName;
         if (strcmp(label, temp) == 0) {
-            return labelList->labels[i];
+            return labelList->content[i];
         }
     }
     return NULL;
 }
 
-void insertLabelTable(char *l, symbolTable *labelTable, int lineNum, label **currentLabel, lDType type,bool defined){
+void insertLabelTable(char *l, symbolTable *labelTable, label **currentLabel, lDType type,bool defined){
     label *label = NULL;
     ALLOCATE(label, sizeof(label));
     ALLOCATE(label->symbolName, sizeof(char)*strlen(l));
@@ -377,8 +450,8 @@ void insertLabelTable(char *l, symbolTable *labelTable, int lineNum, label **cur
     label->defined = defined;
     if (labelTable->size == labelTable->capacity) {
         labelTable->size += 10;
-        REALLOCTION(*labelTable->labels, labelTable->size);
+        REALLOCTION(*labelTable->content, labelTable->size);
     }
     *currentLabel = label;
-    labelTable->labels[labelTable->capacity++] = label;
+    labelTable->content[labelTable->capacity++] = label;
 }

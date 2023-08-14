@@ -7,48 +7,47 @@
 char** splitString( char* input,int *countWords,char *operands){
     char *str = strdup(input);
     int count = 0;
-    char* token;
-    char** substrings = NULL;
-
+    char * token;
+    char ** substrings = malloc(sizeof(char *) * MAX_LINE_LENGTH);
     token= strtok(str, operands);
 
     while (token != NULL) {
-        substrings = realloc(substrings, (count + 1) * sizeof(char*));
         substrings[count] = strdup(token);
         count++;
         token = strtok(NULL, operands);
     }
-    substrings = realloc(substrings, (count + 1) * sizeof(char*));
+
     substrings[count] = NULL;
     *countWords = count;
     free(str);
+    free(token);
     return substrings;
 }
 void insertMacro(macroTable *macroTable, char *name, char *content,macro **currMacro) {
 
     int i;
     macro *newMacro;
-    for (i = 0; i < macroTable->count; ++i) {
-        if (strcmp(macroTable->tableList[i]->name, name) == 0) {
+    for (i = 0; i < macroTable->capacity; ++i) {
+        if (strcmp(macroTable->content[i]->name, name) == 0) {
             printf("Error: Macro %s already defined\n", name);
             return;
         }
     }
-      if (macroTable->count == macroTable->size){
+      if (macroTable->capacity == macroTable->size){
           macroTable= realloc(macroTable, (macroTable->size + TABLE_SIZE ) * sizeof(macroTable));
           macroTable->size += TABLE_SIZE;
       }
       newMacro = createNewMacro(name, content);
-      macroTable->tableList[macroTable->count] = newMacro;
-      macroTable->count++;
+      macroTable->content[macroTable->capacity] = newMacro;
+      macroTable->capacity++;
       *currMacro = newMacro;
 
 }
 char* getMacroContent(macroTable * macroTable, char *substring){
     int i;
-    for (i = 0; i < macroTable->count; ++i) {
-        if (strcmp(macroTable->tableList[i]->name, substring) == 0) {
-            return macroTable->tableList[i]->content;
+    for (i = 0; i < macroTable->capacity; ++i) {
+        if (strcmp(macroTable->content[i]->name, substring) == 0) {
+            return macroTable->content[i]->content;
         }
     }
     return NULL;
@@ -59,8 +58,8 @@ bool checkValidMacroName(macroTable *table, char *name, int lineNum){
         printf("Error in lineStr %d: macro name must start with a letter\n",lineNum);
         return false;
     }
-    for (i = 0; i < table->count; ++i) {
-        if (strcmp(table->tableList[i]->name, name) == 0) {
+    for (i = 0; i < table->capacity; ++i) {
+        if (strcmp(table->content[i]->name, name) == 0) {
             printf("Error in lineStr %d: macro name already exists\n",lineNum);
             return false;
         }

@@ -59,41 +59,29 @@ typedef struct lexStruct {
                  int sourceOpByteCode : 12;
                  int targetOpByteCode : 12;
             }lineByteCodeData;
-            union {
-                struct {
-                    operandAddrType arrOpType[2];
-                    operandAddrTypeName arrOpName[2];
-                }twoOpeInstType;
-
-                struct {
-                    operandAddrType oat;
-                    union {
-                        struct {
-                            operandAddrType oat[2];
-                            operandAddrTypeName oaTu[2];
-                        }setB_param_label;
-                        operandAddrTypeName oatu;
-                    }setB_operands;
-                }asm_inst_setB;
-            }asm_inst_sets;
+            struct {
+                operandAddrType arrOpType[2];
+                operandAddrTypeName arrOpName[2];
+            }OpeInstTypes;
         }instType;
     }lexType;
 }lexStruct;
 
 typedef struct lexTable{
-    lexStruct **lexStructList;
+    lexStruct **content;
     int size;
     int capacity;
 } lexTable;
 
 lexStruct * getLexTreePosition(lineStr *line, symbolTable *labelTable, int *IC, int* DC, macroTable *macroTable);
 bool isValidLabel (char *label, int linNum, symbolTable *list, macroTable *macroTable) ;
-void insertLabelTable(char *l, symbolTable *labelTable, int lineNum, label **currentLabel, lDType type,bool defined);
-bool getData(const char *inputString, int *numArray, int *numCount,int *lineNum,label *label);
+void insertLabelTable(char *l, symbolTable *labelTable, label **currentLabel, lDType type,bool defined);
+bool getData(const char *inputString, int *numArray, int *numCount,int *lineNum);
 label *getLabel(char *label, symbolTable *labelList);
 int getOpCode(char *str,int *lineNum,int *numOfOperands);
 bool getOperands(char *str , lexStruct *lexTree, int *lineNum, symbolTable *labelTable, macroTable *macroTable);
 bool getNumber(char *str, int *num);
 bool checkOperandOrder(opCode opCode, operandAddrType arrOpType[], int *lineNum );
 void makeStringBitArray(char *str ,bitLine *stringBitArray);
+int isValidNumber( char *str);
 #endif

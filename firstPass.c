@@ -1,12 +1,11 @@
 #include "firstPass.h"
 #include <stdlib.h>
-#include "codeFirsPass.h"
 #include "table.h"
 bool firstPass(char *fileAm, macroTable *macroTable,lexTable *lexTable, symbolTable *labelList) {
-    FILE *fp;
-    /*fileAm = strcat(fileAm, ".am");
-    fp = fopen(fileAm, "r");*/
-    fp = fopen("C:\\Users\\lior3\\CLionProjects\\Assembler\\test1.am", "r");
+    FILE *fp=NULL;
+
+    fileAm = giveNameFile(fileAm, ".am");
+    fp = fopen(fileAm, "r");
     if (fp == NULL) {
         printf("Error: file %s cannot be opened\n", fileAm);
         return false;
@@ -22,7 +21,7 @@ bool firstPass(char *fileAm, macroTable *macroTable,lexTable *lexTable, symbolTa
 bool lineProcessFirst(FILE *fp, macroTable *macroTable,lexTable *lexTable, symbolTable *labelList) {
     char *currLine;
     lineStr * line;
-    int index=0, countWords,*IC,*DC;
+    int index=0, countWords,*IC,*DC,i;
     lexStruct *lexTree = NULL;
     bool error = true;
     ALLOCATE(currLine, MAX_LINE_LENGTH);
@@ -32,8 +31,14 @@ bool lineProcessFirst(FILE *fp, macroTable *macroTable,lexTable *lexTable, symbo
     *IC=0;
     *DC=0;
     while (fgets(currLine, MAX_LINE_LENGTH, fp) != NULL) {
-        if(!checkForError(currLine, index)){
+        if(!checkForError(currLine, (index+1))){
             error = false;
+        }
+        if (line->lineContent != NULL){
+            for (i = 0; i < line->size; ++i) {
+                free(line->lineContent[i]);
+            }
+            free(line->lineContent);
         }
         line->lineContent = splitString(currLine, &countWords, " \n");
         line->lineNum = ++index;
@@ -41,18 +46,36 @@ bool lineProcessFirst(FILE *fp, macroTable *macroTable,lexTable *lexTable, symbo
         if (lexTable->capacity == lexTable->size) {
             reallocateLexTable(lexTable);
         }
+        if (lexTree != NULL) {
+            free(lexTree);
+        }
         lexTree = getLexTreePosition(line, labelList,IC,DC,macroTable);
         if (lexTree == NULL) {
-            printf("error in first pass: %d\n", line->lineNum);
             error = false;
         }else{
             if (lexTree->lineType == lexInst)
                 addBinaryCode(lexTree);
         }
 
-        lexTable->lexStructList[lexTable->capacity++] = lexTree;
+
+        lexTable->content[lexTable->capacity++] = lexTree;
+
+
 
     }
+    if (line->lineContent != NULL){
+        for (i = 0; i < line->size; ++i) {
+            free(line->lineContent[i]);
+        }
+        free(line->lineContent);
+    }
+    if (lexTree != NULL) {
+        free(lexTree);
+    }
+    free(currLine);
+    free(line);
+    free(IC);
+    free(DC);
     return error;
 }
 
@@ -74,9 +97,9 @@ void addBinaryCode(lexStruct *lexStruct){
 }
 
 void getInstructionsAndOperandsBit( lexStruct *lexTree){
-    operandAddrTypeName *arrAddName = lexTree->lexType.instType.asm_inst_sets.twoOpeInstType.arrOpName;
+    operandAddrTypeName *arrAddName = lexTree->lexType.instType.OpeInstTypes.arrOpName;
     opCode opCode = lexTree->lexType.instType.instName;
-    operandAddrType *arrAddrType = lexTree->lexType.instType.asm_inst_sets.twoOpeInstType.arrOpType;
+    operandAddrType *arrAddrType = lexTree->lexType.instType.OpeInstTypes.arrOpType;
     int bitLine =0,bitFirst=0,bitSecond=0,temp=0;
     int bitSourceOperand=0;
     int birTargetOperand = 0;

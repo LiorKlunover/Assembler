@@ -81,12 +81,12 @@ clean: CMakeFiles/Assembler.dir/clean
 CMakeFiles/Assembler.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Assembler.dir/build.make CMakeFiles/Assembler.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Assembler.dir/build.make CMakeFiles/Assembler.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/mnt/c/Users/lior3/CLionProjects/untitled8/cmake-build-debug-wsl/CMakeFiles --progress-num=1,2,3,4,5,6,7,8,9 "Built target Assembler"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/mnt/c/Users/lior3/CLionProjects/untitled8/cmake-build-debug-wsl/CMakeFiles --progress-num=1,2,3,4,5,6,7,8 "Built target Assembler"
 .PHONY : CMakeFiles/Assembler.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/Assembler.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/c/Users/lior3/CLionProjects/untitled8/cmake-build-debug-wsl/CMakeFiles 9
+	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/c/Users/lior3/CLionProjects/untitled8/cmake-build-debug-wsl/CMakeFiles 8
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/Assembler.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/c/Users/lior3/CLionProjects/untitled8/cmake-build-debug-wsl/CMakeFiles 0
 .PHONY : CMakeFiles/Assembler.dir/rule

@@ -4,7 +4,7 @@
 #define MAX_LABEL_SIZE 31
 
 #define ALLOCATE(ptr, size) do {\
-    ptr = malloc(sizeof(*(ptr)) * (size)); \
+    ptr = malloc((sizeof(*(ptr)) * (size))); \
     if (!ptr) { \
         printf("Memory allocation failed"); \
         exit(0); \
@@ -21,7 +21,19 @@
             exit(EXIT_FAILURE);                    \
         }                                          \
     } while (0)
-
+#define FREE_STRUCT(type, var) do { \
+    int i;\
+    if (var) { \
+        if (var->content) { \
+            for ( i = 0; i < var->capacity; ++i) { \
+                free(var->content[i]); \
+            } \
+            free(var->content); \
+        } \
+        free(var); \
+        var = NULL; \
+    } \
+} while (0)
 
 typedef enum booleans {
     false = 0, true = 1
@@ -72,7 +84,7 @@ typedef struct label{
     int data;
 }label;
 typedef struct symbolTable{
-    label **labels;
+    label **content;
     int size;
     int capacity;
 } symbolTable;
@@ -95,9 +107,9 @@ typedef struct macro {
     char *content;
 } macro;
 typedef struct macroTable {
-    macro **tableList;
+    macro **content;
     int size;
-    int count;
+    int capacity;
 } macroTable;
 
 typedef struct objectContent{

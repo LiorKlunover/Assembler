@@ -85,12 +85,6 @@
 		<Unit filename="/mnt/c/Users/lior3/CLionProjects/untitled8/code.h">
 			<Option target="Assembler"/>
 		</Unit>
-		<Unit filename="/mnt/c/Users/lior3/CLionProjects/untitled8/codeFirsPass.c">
-			<Option target="Assembler"/>
-		</Unit>
-		<Unit filename="/mnt/c/Users/lior3/CLionProjects/untitled8/codeFirsPass.h">
-			<Option target="Assembler"/>
-		</Unit>
 		<Unit filename="/mnt/c/Users/lior3/CLionProjects/untitled8/firstPass.c">
 			<Option target="Assembler"/>
 		</Unit>

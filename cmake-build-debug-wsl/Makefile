@@ -177,30 +177,6 @@ code.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Assembler.dir/build.make CMakeFiles/Assembler.dir/code.c.s
 .PHONY : code.c.s
 
-codeFirsPass.o: codeFirsPass.c.o
-.PHONY : codeFirsPass.o
-
-# target to build an object file
-codeFirsPass.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Assembler.dir/build.make CMakeFiles/Assembler.dir/codeFirsPass.c.o
-.PHONY : codeFirsPass.c.o
-
-codeFirsPass.i: codeFirsPass.c.i
-.PHONY : codeFirsPass.i
-
-# target to preprocess a source file
-codeFirsPass.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Assembler.dir/build.make CMakeFiles/Assembler.dir/codeFirsPass.c.i
-.PHONY : codeFirsPass.c.i
-
-codeFirsPass.s: codeFirsPass.c.s
-.PHONY : codeFirsPass.s
-
-# target to generate assembly for a file
-codeFirsPass.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Assembler.dir/build.make CMakeFiles/Assembler.dir/codeFirsPass.c.s
-.PHONY : codeFirsPass.c.s
-
 firstPass.o: firstPass.c.o
 .PHONY : firstPass.o
 
@@ -336,9 +312,6 @@ help:
 	@echo "... code.o"
 	@echo "... code.i"
 	@echo "... code.s"
-	@echo "... codeFirsPass.o"
-	@echo "... codeFirsPass.i"
-	@echo "... codeFirsPass.s"
 	@echo "... firstPass.o"
 	@echo "... firstPass.i"
 	@echo "... firstPass.s"
