@@ -1,22 +1,20 @@
-MAIN: mov,@r3,LENGTH
-LENGTH: .data ,6,-9,15
-STR: .string “abcdef”
-LOOP: jmp L1
-END : stop
+MAIN: mov @r3,LENGTH
 LENGTH: .data 6,-9,15
-STR: .string “abcdef”
-STR : .string “abcdef”
-LENGTH .data 6,-9,15
+STR: .string "aaaa"
+LOOP: jmp L1
+END: stop
+.entry LOOP
 prn -5
 bne LOOP
 sub @r1, @r4
 bne END
 L1: inc K
-bne, LOOP
-END : stop
-STR: .string “abcdef”
-LENGTH: .data 6,-9,15
+bne LOOP
 sub @r2, @r1
-LOOP END
-lior hagever
 K: .data 22
+.extern END
+.entry STR
+.entry MAIN
+.entry K
+.entry LENGTH
+.entry L1

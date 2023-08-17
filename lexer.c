@@ -14,11 +14,11 @@ lexStruct * getLexTreePosition(lineStr *line, symbolTable *labelTable, int * IC,
     int len = 0,index = 0;
     lexTree = malloc(sizeof(lexStruct));
     lexTree->label = NULL;
-    ptr= malloc(sizeof(char) * MAX_LINE_LENGTH);
+    ptr = malloc(sizeof(char) * MAX_LINE_LENGTH);
 
     for(index = 0; index < line->size; index++) {
 
-        ptr =   strcpy(ptr,lineC[index]);
+        ptr = strcpy(ptr,lineC[index]);
         len = (int) strlen(ptr);
         ptr[len] = '\0';
 
@@ -102,14 +102,12 @@ lexStruct * getLexTreePosition(lineStr *line, symbolTable *labelTable, int * IC,
                 *DC += lexTree->lexType.dirType.dirUnionContent.dataType.numCount;
 
             } else if (lexTree->lexType.dirType.lexDirType == lexDirString) {
-                if (ptr[0] != '"'|| ptr[strlen(ptr)-1] != '"') {
-                    printf("Error in lineStr %d: invalid string\n", line->lineNum);
-                    free(ptr);
-                    free(lexTree);
-                    return NULL;
-                }
-                ptr[strlen(ptr)-1] = '\0';
-                ptr++;
+               if ((ptr = isValidString(ptr)) == NULL) {
+                   printf("Error in lineStr %d: invalid string\n", line->lineNum);
+                   free(ptr);
+                   free(lexTree);
+                   return NULL;
+               }
                 strcpy(lexTree->lexType.dirType.dirUnionContent.stringType,ptr );
                 makeStringBitArray( ptr,lexTree->lexType.dirType.dirBitArray);
                 if (labelFlag) {
@@ -140,15 +138,18 @@ lexStruct * getLexTreePosition(lineStr *line, symbolTable *labelTable, int * IC,
                     if ((currLabel = getLabel(token, labelTable)) == NULL) {
                         insertLabelTable(token, labelTable, &lexTree->label, externLabel,false);
                         currLabel = getLabel(token, labelTable);
+
+                    }else if(currLabel->defined){
+                        printf("Error in line: %d , label was define as entry \n", line->lineNum);
+                        free(ptr);
+                        free(lexTree);
+                        return NULL;
                     } else if (currLabel->defineType == notEntryOrExtern || currLabel->defineType == operandDefined) {
                         currLabel->defineType = externLabel;
                     } else if (currLabel->defineType == externLabel) {
                         printf("Warning in line: %d , label was define before \n", line->lineNum);
                     } else {
-                        printf("Error in line: %d , label was define as entry \n", line->lineNum);
-                        free(ptr);
-                        free(lexTree);
-                        return NULL;
+
                     }
                     currLabel->address = 1;
                     token = strtok(NULL, " ,");
@@ -202,16 +203,41 @@ lexStruct * getLexTreePosition(lineStr *line, symbolTable *labelTable, int * IC,
     }
     return lexTree;
 }
-
+char *isValidString(char *str) {
+    char *newStr;
+    char *result = strdup(str);
+    int len = strlen(result);
+    int left = 0, right = len - 1;
+    if (result[left++] != '\"' || result[right--] != '\"'){
+        free(result);
+        return NULL;
+    }
+    if (left > right) {
+        free(result);
+        return NULL;
+    }
+    if (left < len && result[left]==' ')
+        left++;
+    if (right >= 0 && result[right]==' ')
+        right--;
+    result[right + 1] = '\0';
+    newStr = strdup(result + left);
+    free(result);
+    return newStr;
+}
 bool getOperands(char *str , lexStruct *lexTree, int *lineNum, symbolTable *labelTable, macroTable *macroTable){
     int num;
+    int len =strlen(str)+1;
     operandAddrTypeName tempArrOpName;
-    char *token = strdup(str);
     operandAddrType tempArrOpType = -1;
-    strtok(token, ",");
+    char *copy = (char *)malloc(len * sizeof (char));
+    char * token;
+    strcpy(copy, str);
+    token = strtok(copy, ",");
     while (token != NULL) {
         if (lexTree->lexType.instType.OpeInstTypes.arrOpType[0] != -1){
             printf("Error in line: %d , too many operands \n", *lineNum);
+            free(copy);
             return false;
         }
         else if (token[0] == '@'){
@@ -220,14 +246,14 @@ bool getOperands(char *str , lexStruct *lexTree, int *lineNum, symbolTable *labe
                 tempArrOpName.reg = token[2]-'0';
             }else{
                 printf("Error in line: %d , invalid register \n", *lineNum);
-
+                free(copy);
                 return false;
             }
         }
         else if(getNumber(token,&num)){
             if (num > MAX_DATA_VALUE || num < MIN_DATA_VALUE) {
                 printf("Error in line: %d , immediate value is out of range \n", *lineNum);
-
+                free(copy);
                 return false;
             }
             tempArrOpType = immediate;
@@ -241,7 +267,7 @@ bool getOperands(char *str , lexStruct *lexTree, int *lineNum, symbolTable *labe
         }
         else{
             printf("Error in line: %d , invalid operand \n", *lineNum);
-
+            free(copy);
             return false;
         }
         if (lexTree->lexType.instType.OpeInstTypes.arrOpType[1] != -1){
@@ -253,7 +279,7 @@ bool getOperands(char *str , lexStruct *lexTree, int *lineNum, symbolTable *labe
 
         token = strtok(NULL, ",");
     }
-
+    free(copy);
     return true;
 
 }
@@ -341,9 +367,11 @@ int getOpCode(char *str,int *lineNum,int *numOfOperands){
         return -1;
 }
 bool getData(const char *inputString, int *numArray, int *numCount,int *lineNum) {
-        char *token;
-        char *copy = strdup(inputString);
-        token = strtok(copy, ",");
+    char *token;
+    int len = strlen(inputString) + 1;
+    char *copy = (char *) malloc(len * sizeof (char));
+    strcpy(copy, inputString);
+    token = strtok(copy, ",");
     while (token != NULL) {
         if (*numCount >= MAX_DATA_VALUE) {
             printf("Error in line %d: Exceeded maximum number of values\n", *lineNum);
@@ -361,16 +389,14 @@ bool getData(const char *inputString, int *numArray, int *numCount,int *lineNum)
             return false;
         }
         numArray[*numCount] = atoi(token);
-
-        (*numCount)++;
-
         if (numArray[*numCount] > MAX_DATA_VALUE || numArray[*numCount] < MIN_DATA_VALUE) {
-            printf("Error in line %d: Exceeded maximum number of values\n", *lineNum);
+            printf("Error in line %d: number is out of range\n", *lineNum);
             if (copy != NULL) {
                 free(copy);
             }
             return false;
         }
+        (*numCount)++;
         token = strtok(NULL, ",");
     }
     if (numCount == 0) {
@@ -441,10 +467,11 @@ label *getLabel(char *label, symbolTable *labelList){
 
 void insertLabelTable(char *l, symbolTable *labelTable, label **currentLabel, lDType type,bool defined){
     label *label = NULL;
+    int len = strlen(l);
     ALLOCATE(label, sizeof(label));
-    ALLOCATE(label->symbolName, sizeof(char)*strlen(l));
-    strncpy(label->symbolName, l, strlen(l));
-    label->symbolName[strlen(l)] = '\0';
+    ALLOCATE(label->symbolName, sizeof(char) * len+1);
+    strncpy(label->symbolName, l, len);
+    label->symbolName[len] = '\0';
     label->defineType = type;
     label->address = 0;
     label->defined = defined;

@@ -12,5 +12,7 @@
 lexTable *createLexStruct();
 macroTable *creatMacroTable();
 symbolTable *creatSymbolTable();
-void reallocateLexTable(lexTable *lexTable);
+objectFileContent * makeObjectFileContent();
+entryFileContent * makeEntryFileContent();
+externFileContent * makeExternFileContent();
 #endif

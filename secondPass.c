@@ -7,15 +7,10 @@
 static int count = 0;
 bool secondPass(char *fileName, lexTable *lexList, symbolTable *labelList){
      int lineBit;
-    objectFileContent *objectFileContentList =NULL;
-    externFileContent *externFileContentList=NULL;
-    entryFileContent *entryFileContentList = NULL;
+    objectFileContent *objectFileContentList = makeObjectFileContent();
+    externFileContent *externFileContentList =makeExternFileContent();
     lexStruct *currLex = NULL;
     int i=0,j;
-    ALLOCATE(currLex, sizeof(lexStruct));
-    MAKE_TYPE_CONTENT_TABLE(objectFileContentList)
-    MAKE_TYPE_CONTENT_TABLE(externFileContentList)
-    MAKE_TYPE_CONTENT_TABLE(entryFileContentList)
 
     while(i < lexList->capacity) {
         currLex = lexList->content[i++];
@@ -51,11 +46,19 @@ bool secondPass(char *fileName, lexTable *lexList, symbolTable *labelList){
     makeObjectFile(objectFileContentList, fileName);
     makeExternFile(externFileContentList, fileName);
     makeEntryFile(labelList, fileName);
-   free(currLex);
+
+    for(i = 0; i < objectFileContentList->capacity; ++i){
+        free(objectFileContentList->content[i]);
+    }
     free(objectFileContentList->content);
     free(objectFileContentList);
-    FREE_STRUCT(externFileContentList, externFileContentList);
-    FREE_STRUCT(entryFileContentList, entryFileContentList);
+
+    for(i = 0; i < externFileContentList->capacity; ++i){
+        free(externFileContentList->content[i]);
+    }
+    free(externFileContentList->content);
+    free(externFileContentList);
+
 
 return true;
 }
@@ -114,6 +117,7 @@ void insertObjectFileContent(objectFileContent *objectContent, int bit){
     }
     count++;
     objectContent->content[objectContent->capacity++] = decimal12ToBase64(*num);
+    free(num);
 }
 
 void print(int bit){

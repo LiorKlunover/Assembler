@@ -19,17 +19,17 @@ bool firstPass(char *fileAm, macroTable *macroTable,lexTable *lexTable, symbolTa
 }
 
 bool lineProcessFirst(FILE *fp, macroTable *macroTable,lexTable *lexTable, symbolTable *labelList) {
-    char *currLine;
+    char *currLine=NULL;
     lineStr * line;
     int index=0, countWords,*IC,*DC,i;
-    lexStruct *lexTree = NULL;
+    lexStruct *lexTree = malloc(sizeof(lexStruct));
     bool error = true;
     ALLOCATE(currLine, MAX_LINE_LENGTH);
     ALLOCATE(line, sizeof(line));
     ALLOCATE(IC, sizeof(int));
     ALLOCATE(DC, sizeof(int));
-    *IC=0;
-    *DC=0;
+    *IC = 0;
+    *DC = 0;
     while (fgets(currLine, MAX_LINE_LENGTH, fp) != NULL) {
         if(!checkForError(currLine, (index+1))){
             error = false;
@@ -43,12 +43,7 @@ bool lineProcessFirst(FILE *fp, macroTable *macroTable,lexTable *lexTable, symbo
         line->lineContent = splitString(currLine, &countWords, " \n");
         line->lineNum = ++index;
         line->size = countWords;
-        if (lexTable->capacity == lexTable->size) {
-            reallocateLexTable(lexTable);
-        }
-        if (lexTree != NULL) {
-            free(lexTree);
-        }
+
         lexTree = getLexTreePosition(line, labelList,IC,DC,macroTable);
         if (lexTree == NULL) {
             error = false;
@@ -56,12 +51,11 @@ bool lineProcessFirst(FILE *fp, macroTable *macroTable,lexTable *lexTable, symbo
             if (lexTree->lineType == lexInst)
                 addBinaryCode(lexTree);
         }
+        insertLexTable(lexTable,*lexTree);
 
-
-        lexTable->content[lexTable->capacity++] = lexTree;
-
-
-
+        if (lexTree != NULL) {
+            free(lexTree);
+        }
     }
     if (line->lineContent != NULL){
         for (i = 0; i < line->size; ++i) {
@@ -69,8 +63,12 @@ bool lineProcessFirst(FILE *fp, macroTable *macroTable,lexTable *lexTable, symbo
         }
         free(line->lineContent);
     }
-    if (lexTree != NULL) {
-        free(lexTree);
+    if(!error){
+        for(i = 0; i < lexTable->capacity; ++i){
+            free(lexTable->content[i]);
+        }
+        free(lexTable->content);
+        free(lexTable);
     }
     free(currLine);
     free(line);
@@ -78,7 +76,18 @@ bool lineProcessFirst(FILE *fp, macroTable *macroTable,lexTable *lexTable, symbo
     free(DC);
     return error;
 }
-
+void insertLexTable(lexTable *lexTable,lexStruct lexTree){
+    int i;
+    if (lexTable->capacity == lexTable->size) {
+        lexTable->size +=  TABLE_SIZE;
+        REALLOCTION(lexTable->content, lexTable->size);
+        for (i = lexTable->capacity; i < lexTable->size; ++i) {
+            lexTable->content[i] = NULL;
+        }
+    }
+    lexTable->content[lexTable->capacity] = malloc(sizeof(lexStruct));
+    *lexTable->content[lexTable->capacity++] = lexTree;
+}
 bool checkForError(char *line, int lineNum) {
     if (checkComma(line)) {
         printf("Error in lineStr %d: Consecutive commas\n", lineNum);

@@ -10,7 +10,6 @@ set(CMAKE_DEPENDS_LANGUAGES
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/mnt/c/Users/lior3/CLionProjects/untitled8/Assembler.c" "CMakeFiles/Assembler.dir/Assembler.c.o" "gcc" "CMakeFiles/Assembler.dir/Assembler.c.o.d"
   "/mnt/c/Users/lior3/CLionProjects/untitled8/code.c" "CMakeFiles/Assembler.dir/code.c.o" "gcc" "CMakeFiles/Assembler.dir/code.c.o.d"
-  "/mnt/c/Users/lior3/CLionProjects/untitled8/codeFirsPass.c" "CMakeFiles/Assembler.dir/codeFirsPass.c.o" "gcc" "CMakeFiles/Assembler.dir/codeFirsPass.c.o.d"
   "/mnt/c/Users/lior3/CLionProjects/untitled8/firstPass.c" "CMakeFiles/Assembler.dir/firstPass.c.o" "gcc" "CMakeFiles/Assembler.dir/firstPass.c.o.d"
   "/mnt/c/Users/lior3/CLionProjects/untitled8/lexer.c" "CMakeFiles/Assembler.dir/lexer.c.o" "gcc" "CMakeFiles/Assembler.dir/lexer.c.o.d"
   "/mnt/c/Users/lior3/CLionProjects/untitled8/preAssembler.c" "CMakeFiles/Assembler.dir/preAssembler.c.o" "gcc" "CMakeFiles/Assembler.dir/preAssembler.c.o.d"

@@ -38,11 +38,36 @@ lexTable *createLexStruct(){
     }
     return lexTable;
 }
-void reallocateLexTable(lexTable *lexTable){
+objectFileContent * makeObjectFileContent(){
     int i;
-    lexTable->size +=  TABLE_SIZE;
-    REALLOCTION(*lexTable->content, lexTable->size);
-    for (i = lexTable->capacity; i < lexTable->size; ++i) {
-        lexTable->content[i] = NULL;
+    objectFileContent *objectFileContent = malloc(sizeof(objectFileContent));
+    objectFileContent->content = malloc(TABLE_SIZE * sizeof(char*));
+    objectFileContent->size = TABLE_SIZE;
+    objectFileContent->capacity = 0;
+    for (i = 0; i < TABLE_SIZE; ++i) {
+        objectFileContent->content[i] = NULL;
     }
+    return objectFileContent;
+}
+externFileContent * makeExternFileContent(){
+    int i;
+    externFileContent *externFileContent = malloc(sizeof(externFileContent));
+    externFileContent->content = malloc(TABLE_SIZE * sizeof(char*));
+    externFileContent->size = TABLE_SIZE;
+    externFileContent->capacity = 0;
+    for (i = 0; i < TABLE_SIZE; ++i) {
+        externFileContent->content[i] = NULL;
+    }
+    return externFileContent;
+}
+entryFileContent * makeEntryFileContent(){
+    int i;
+    entryFileContent *entryFileContent = malloc(sizeof(entryFileContent));
+    entryFileContent->content = malloc(TABLE_SIZE * sizeof(char*));
+    entryFileContent->size = TABLE_SIZE;
+    entryFileContent->capacity = 0;
+    for (i = 0; i < TABLE_SIZE; ++i) {
+        entryFileContent->content[i] = NULL;
+    }
+    return entryFileContent;
 }

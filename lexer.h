@@ -7,7 +7,7 @@
 #define MAX_STRING_LEN 80
 #define MAX_NUMBER_SIZE 80
 #define MAX_DATA_VALUE 511
-#define MIN_DATA_VALUE -512
+#define MIN_DATA_VALUE (-512)
 
 typedef enum operandAddrType {
     immediate,
@@ -84,4 +84,5 @@ bool getNumber(char *str, int *num);
 bool checkOperandOrder(opCode opCode, operandAddrType arrOpType[], int *lineNum );
 void makeStringBitArray(char *str ,bitLine *stringBitArray);
 int isValidNumber( char *str);
+char * isValidString(char *str);
 #endif

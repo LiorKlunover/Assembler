@@ -1,12 +1,6 @@
 
 =
-testMacros.am,f\9\f9cdd58436250bcb292868cb05efef416b5e2d3c
-5
-test1,b\4\b444ac06613fc8d63795be9ad0beaf55011936ac
-=
 objectFile.ob,0\0\0030a633225d357c5c935948f1de5b263c18540b
-<
-secondPass.h,0\8\081e6796114402b6701d19cfd2cc76d090f2df53
 P
  cmake-build-debug/CMakeCache.txt,2\f\2fe8eefd0ee808484b51c65e8b53a598c98855b2
 O
@@ -77,8 +71,6 @@ e
 5cmake-build-debug/CMakeFiles/untitled8.dir/flags.make,5\b\5b76147da2880210d848809003e5f3565d6de124
 o
 ?cmake-build-debug/CMakeFiles/untitled8.dir/compiler_depend.make,1\1\11ae9d087f2d035c36a60460418dd4a386bb362b
-;
-firstPass.h,5\0\507a0113378aaa7a41bce75f5c60ff223b00b1b5
 s
 Ccmake-build-debug/CMakeFiles/untitled8.dir/compiler_depend.internal,d\b\db6bc4db508f0d8b6092f6e012c865d434e92fcc
 m
@@ -88,4 +80,26 @@ c
 e
 5cmake-build-debug/CMakeFiles/untitled8.dir/main.c.o.d,5\8\581a156bb0efdabc15c668876f14b1638738bc62
 =
-testMacros.as,b\0\b06bc2a465bd3aca0571d934dd6f2a4084ee3c66
+errorsTest.am,b\d\bd2d8ec6fb8822e432dd80adbbdfe1f88b772229
+8
+makefile,0\c\0c0610d12d971107a85160c6a927e94a1062a01a
+=
+errorsTest.as,9\2\9205999239f7c6be4553023ee843f55a4a82c1e5
+>
+CMakeLists.txt,9\a\9a2aa4db38d3115ed60da621e012c0efc0172aae
+8
+test1.ob,7\4\7450e55131d350d92ec0509d95ecf3997ac472f4
+9
+	test1.ent,7\0\70fcb912d50ac5018e5a74b01af7066170ee2594
+9
+	test1.txt,0\5\055e2536b6ac416b21f4ba26f180983a90e94a3a
+>
+preAssembler.h,a\1\a18651830ff6de86a4dba7d5c72a2e330aec75af
+>
+preAssembler.c,6\3\63b17cd4632b1e98b140f9c36ebb27e17caa3e46
+5
+test1,b\4\b444ac06613fc8d63795be9ad0beaf55011936ac
+8
+test1.am,f\9\f91b331621ce386061893ade44225a9994025430
+8
+test1.as,2\3\236ce52802697421cd985dfc23e065ccc859e2ff

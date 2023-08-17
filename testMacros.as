@@ -1,24 +1,21 @@
-
-MAIN: ,, mov,@r3,LENGTH
-
-mcro, m1
-    sub @r1, @r4
-    bne END
-endmcro
-prn -5
-m1
-L1: inc K
-bne, , LOOP
-mcro m3
-    sub @r2, @r1
-    LOOP END
-    lior hagever
-endmcro
-mcro m2
-    lior hagever
-endmcro
-
+MAIN: mov @r3,LENGTH
 LENGTH: .data 6,-9,15
-STR:
-m2
+STR: .string    "aaaa"
+LOOP: jmp L1
+END: stop
+    .entry LOOP
+prn -5
+bne LOOP
+sub @r1, @r4
+    bne END
+L1: inc K
+bne LOOP
+sub @r2, @r1
 K: .data 22
+    .extern END
+    .entry STR
+    .entry MAIN
+    .entry K
+    .entry LENGTH
+    .entry L1
+

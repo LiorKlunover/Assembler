@@ -5,8 +5,6 @@ file(REMOVE_RECURSE
   "CMakeFiles/Assembler.dir/Assembler.c.o.d"
   "CMakeFiles/Assembler.dir/code.c.o"
   "CMakeFiles/Assembler.dir/code.c.o.d"
-  "CMakeFiles/Assembler.dir/codeFirsPass.c.o"
-  "CMakeFiles/Assembler.dir/codeFirsPass.c.o.d"
   "CMakeFiles/Assembler.dir/firstPass.c.o"
   "CMakeFiles/Assembler.dir/firstPass.c.o.d"
   "CMakeFiles/Assembler.dir/lexer.c.o"
