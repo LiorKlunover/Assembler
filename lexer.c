@@ -10,12 +10,12 @@ lexStruct * getLexTreePosition(lineStr *line, symbolTable *labelTable, int * IC,
     bool labelFlag = false, dirFlag = false, instFlag = false;
     char **lineC = line->lineContent;
     label *currLabel = NULL;
-    char *token =NULL,*ptr = NULL;
+    char *token =NULL,*ptr = NULL,*temp;
     int len = 0,index = 0;
     lexTree = malloc(sizeof(lexStruct));
     lexTree->label = NULL;
     ptr = malloc(sizeof(char) * MAX_LINE_LENGTH);
-
+    temp = ptr;
     for(index = 0; index < line->size; index++) {
 
         ptr = strcpy(ptr,lineC[index]);
@@ -25,7 +25,7 @@ lexStruct * getLexTreePosition(lineStr *line, symbolTable *labelTable, int * IC,
         if (len > 0 && ptr[len-1]  == ':') {
             ptr[len-1] = '\0';
             if (!isValidLabel(ptr, line->lineNum, labelTable, macroTable)) {
-                free(ptr);
+                free(temp);
                 free(lexTree);
                 return NULL;
             }
@@ -37,26 +37,25 @@ lexStruct * getLexTreePosition(lineStr *line, symbolTable *labelTable, int * IC,
                 insertLabelTable(ptr, labelTable, &lexTree->label, notEntryOrExtern,true);
             }else if (currLabel->defineType == notEntryOrExtern ){
                 printf("Error in line: %d , label was define before \n", line->lineNum);
-                free(ptr);
+                free(temp);
                 free(lexTree);
                 return NULL;
             } else if(currLabel->defineType == externLabel){
                 printf("Error in line: %d ,can't define extern label  \n", line->lineNum);
-                free(ptr);
+                free(temp);
                 free(lexTree);
                 return NULL;
             }else if(currLabel->defineType == operandDefined){
                 currLabel->defineType = notEntryOrExtern;
             }else if(currLabel->address != 0){
                 printf("Error in line: %d ,label was define before \n", line->lineNum);
-                free(ptr);
+                free(temp);
                 free(lexTree);
                 return NULL;
             }
             if(currLabel != NULL && !currLabel->defined){
                 currLabel->defined = true;
             }
-
             labelFlag = true;
             continue;
         }
@@ -72,9 +71,8 @@ lexStruct * getLexTreePosition(lineStr *line, symbolTable *labelTable, int * IC,
                 lexTree->lexType.dirType.lexDirType = lexDirExtern;
             } else {
                 printf("Error in lineStr %d: invalid directive\n", line->lineNum);
-                free(ptr);
+                free(temp);
                 free(lexTree);
-
                 return NULL;
             }
             lexTree->lineType = lexDir;
@@ -89,7 +87,7 @@ lexStruct * getLexTreePosition(lineStr *line, symbolTable *labelTable, int * IC,
             if (lexTree->lexType.dirType.lexDirType == lexDirData){
                 if(!getData(ptr, lexTree->lexType.dirType.dirUnionContent.dataType.numArray,
                         &lexTree->lexType.dirType.dirUnionContent.dataType.numCount, &line->lineNum)){
-                    free(ptr);
+                    free(temp);
                     free(lexTree);
                     return NULL;
                 }
@@ -100,11 +98,10 @@ lexStruct * getLexTreePosition(lineStr *line, symbolTable *labelTable, int * IC,
                     lexTree->label->address = *DC+100+*IC;
                 }
                 *DC += lexTree->lexType.dirType.dirUnionContent.dataType.numCount;
-
             } else if (lexTree->lexType.dirType.lexDirType == lexDirString) {
                if ((ptr = isValidString(ptr)) == NULL) {
                    printf("Error in lineStr %d: invalid string\n", line->lineNum);
-                   free(ptr);
+                   free(temp);
                    free(lexTree);
                    return NULL;
                }
@@ -127,7 +124,7 @@ lexStruct * getLexTreePosition(lineStr *line, symbolTable *labelTable, int * IC,
                     printf("Warning in line: %d , label was define before \n", line->lineNum);
                 }else {
                     printf("Error in line: %d , label was define as extern \n", line->lineNum);
-                    free(ptr);
+                    free(temp);
                     free(lexTree);
                     return NULL;
                 }
@@ -141,15 +138,13 @@ lexStruct * getLexTreePosition(lineStr *line, symbolTable *labelTable, int * IC,
 
                     }else if(currLabel->defined){
                         printf("Error in line: %d , label was define as entry \n", line->lineNum);
-                        free(ptr);
+                        free(temp);
                         free(lexTree);
                         return NULL;
                     } else if (currLabel->defineType == notEntryOrExtern || currLabel->defineType == operandDefined) {
                         currLabel->defineType = externLabel;
                     } else if (currLabel->defineType == externLabel) {
                         printf("Warning in line: %d , label was define before \n", line->lineNum);
-                    } else {
-
                     }
                     currLabel->address = 1;
                     token = strtok(NULL, " ,");
@@ -177,7 +172,7 @@ lexStruct * getLexTreePosition(lineStr *line, symbolTable *labelTable, int * IC,
                 strcat(ptr, lineC[index]);
             }
             if (!getOperands(ptr,lexTree ,&line->lineNum, labelTable, macroTable)){
-                free(ptr);
+                free(temp);
                 free(lexTree);
                 return NULL;
             }
@@ -186,7 +181,7 @@ lexStruct * getLexTreePosition(lineStr *line, symbolTable *labelTable, int * IC,
             }
         } else{
             printf("Error in line: %d , invalid input \n", line->lineNum);
-            free(ptr);
+            free(temp);
             free(lexTree);
             return NULL;
         }
@@ -196,11 +191,12 @@ lexStruct * getLexTreePosition(lineStr *line, symbolTable *labelTable, int * IC,
         if (!checkOperandOrder(lexTree->lexType.instType.instName,lexTree->lexType.instType.OpeInstTypes.arrOpType,
                                &line->lineNum)){
             printf("Error in line: %d , invalid operand \n", line->lineNum);
-            free(ptr);
+            free(temp);
             free(lexTree);
             return NULL;
         }
     }
+    free(temp);
     return lexTree;
 }
 char *isValidString(char *str) {
@@ -216,9 +212,9 @@ char *isValidString(char *str) {
         free(result);
         return NULL;
     }
-    if (left < len && result[left]==' ')
+    if (left < len && result[left] == ' ')
         left++;
-    if (right >= 0 && result[right]==' ')
+    if (right >= 0 && result[right] == ' ')
         right--;
     result[right + 1] = '\0';
     newStr = strdup(result + left);
@@ -250,7 +246,7 @@ bool getOperands(char *str , lexStruct *lexTree, int *lineNum, symbolTable *labe
                 return false;
             }
         }
-        else if(getNumber(token,&num)){
+        else if(getNumber(token, &num)){
             if (num > MAX_DATA_VALUE || num < MIN_DATA_VALUE) {
                 printf("Error in line: %d , immediate value is out of range \n", *lineNum);
                 free(copy);
@@ -380,7 +376,6 @@ bool getData(const char *inputString, int *numArray, int *numCount,int *lineNum)
             }
             return false;
         }
-
         if (!isValidNumber(token)) {
             printf("Error in line %d: Not a valid number\n", *lineNum);
             if (copy != NULL) {

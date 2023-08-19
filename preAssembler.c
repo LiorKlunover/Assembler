@@ -30,10 +30,8 @@ bool preProcessFile( char *filename, macroTable *macroTable){
 
  printf("File %s read in pre processed\n", filename);
  error = lineProcess(fp, newFile, macroTable);
-
  fclose(newFile);
  fclose(fp);
-
  free(filenameAs);
  free(filenameAm);
  return error;
@@ -62,6 +60,10 @@ bool lineProcess(FILE *fp,  FILE *newFile, macroTable *macroTable){
 
          if (countWords == 1 && (content = getMacroContent(macroTable, lineContent->lineContent[0])) != NULL){
              fputs(content, newFile);
+             for (index = 0; index < lineContent->size; ++index) {
+                 free(lineContent->lineContent[index]);
+             }
+             free(lineContent->lineContent);
              continue;
          }
          if(inMacroMode){
@@ -71,16 +73,27 @@ bool lineProcess(FILE *fp,  FILE *newFile, macroTable *macroTable){
                      return false;
                  }
                  inMacroMode = false;
+                 for (index = 0; index < lineContent->size; ++index) {
+                     free(lineContent->lineContent[index]);
+                 }
+                 free(lineContent->lineContent);
                  continue;
              }
              addContentToMacro(*currMakro, currLine + index);
+             for (index = 0; index < lineContent->size; ++index) {
+                 free(lineContent->lineContent[index]);
+             }
+             free(lineContent->lineContent);
              continue;
          }
 
          if (strstr(currLine,"mcro") != 0){
-
              if(countWords != 2 || strcmp(lineContent->lineContent[0],"mcro") != 0){
                  printf("Error in lineStr %d: invalid macro definition\n",lineContent->lineNum);
+                 for (index = 0; index < lineContent->size; ++index) {
+                     free(lineContent->lineContent[index]);
+                 }
+                 free(lineContent->lineContent);
                  return false;
              }
              if (!checkValidMacroName(macroTable, lineContent->lineContent[1], lineContent->lineNum)){
@@ -88,6 +101,10 @@ bool lineProcess(FILE *fp,  FILE *newFile, macroTable *macroTable){
              }
              inMacroMode = true;
             insertMacro(macroTable, lineContent->lineContent[1], "", currMakro);
+             for (index = 0; index < lineContent->size; ++index) {
+                 free(lineContent->lineContent[index]);
+             }
+             free(lineContent->lineContent);
              continue;
          }
          currLine[strlen(currLine) - 1] = '\0';
@@ -97,11 +114,11 @@ bool lineProcess(FILE *fp,  FILE *newFile, macroTable *macroTable){
          for (index = 0; index < lineContent->size; ++index) {
              free(lineContent->lineContent[index]);
          }
-            free(lineContent->lineContent);
+         free(lineContent->lineContent);
      }
-    free(currLine);
+     free(currLine);
      free(lineContent);
-    free(currMakro);
+     free(currMakro);
 
      return true;
 }

@@ -8,13 +8,17 @@ bool firstPass(char *fileAm, macroTable *macroTable,lexTable *lexTable, symbolTa
     fp = fopen(fileAm, "r");
     if (fp == NULL) {
         printf("Error: file %s cannot be opened\n", fileAm);
+        free(fileAm);
+        fclose(fp);
         return false;
     }
     if (lineProcessFirst(fp, macroTable, lexTable, labelList)) {
         fclose(fp);
+        free(fileAm);
         return true;
     }
     fclose(fp);
+    free(fileAm);
     return false;
 }
 
@@ -22,7 +26,7 @@ bool lineProcessFirst(FILE *fp, macroTable *macroTable,lexTable *lexTable, symbo
     char *currLine=NULL;
     lineStr * line;
     int index=0, countWords,*IC,*DC,i;
-    lexStruct *lexTree = malloc(sizeof(lexStruct));
+    lexStruct *lexTree;
     bool error = true;
     ALLOCATE(currLine, MAX_LINE_LENGTH);
     ALLOCATE(line, sizeof(line));

@@ -8,9 +8,9 @@ static int count = 0;
 bool secondPass(char *fileName, lexTable *lexList, symbolTable *labelList){
      int lineBit;
     objectFileContent *objectFileContentList = makeObjectFileContent();
-    externFileContent *externFileContentList =makeExternFileContent();
+    externFileContent *externFileContentList = makeExternFileContent();
     lexStruct *currLex = NULL;
-    int i=0,j;
+    int i = 0 , j;
 
     while(i < lexList->capacity) {
         currLex = lexList->content[i++];
@@ -44,7 +44,9 @@ bool secondPass(char *fileName, lexTable *lexList, symbolTable *labelList){
         }
     }
     makeObjectFile(objectFileContentList, fileName);
-    makeExternFile(externFileContentList, fileName);
+    if(externFileContentList->content!=NULL){
+        makeExternFile(externFileContentList, fileName);
+    }
     makeEntryFile(labelList, fileName);
 
     for(i = 0; i < objectFileContentList->capacity; ++i){
@@ -77,11 +79,17 @@ bool getOperandByte(lexStruct *currLex,objectFileContent *objectFileContent,int 
             }
             if (operandNumber == 0) {
                 bit <<= 2;
-                bit |=2;
+                if (currLex->lexType.instType.OpeInstTypes.arrOpName[operandNumber].label->defineType == externLabel) {
+                    bit |= 1;
+                }else
+                    bit |=2;
                 currLex->lexType.instType.lineByteCodeData.sourceOpByteCode = bit;
             } else if (operandNumber == 1) {
                 bit <<= 2;
-                bit |=2;
+                if (currLex->lexType.instType.OpeInstTypes.arrOpName[operandNumber].label->defineType == externLabel) {
+                    bit |= 1;
+                }else
+                    bit |= 2;
                 currLex->lexType.instType.lineByteCodeData.targetOpByteCode = bit;
             }
         }if (operandNumber == 1 ){
@@ -119,21 +127,6 @@ void insertObjectFileContent(objectFileContent *objectContent, int bit){
     objectContent->content[objectContent->capacity++] = decimal12ToBase64(*num);
     free(num);
 }
-
-void print(int bit){
-    char str[] ="000000000000";
-    int i,num = 1;
-    for ( i = 0; i < 12; ++i) {
-        if (num & bit) {
-            str[11 - i] = '1';
-        } else {
-            str[11 - i] = '0';
-        }
-        num <<= 1;
-    }
-    printf("%d: %s - %d\n",  (100+count),str, bit);
-    count++;
-}
 void insertToExternContent(externFileContent *externContent, char *label, int lineNum){
     char *str = malloc(sizeof(char) * 100);
     sprintf(str, "%s %d", label, (lineNum+100));
@@ -142,7 +135,6 @@ void insertToExternContent(externFileContent *externContent, char *label, int li
         REALLOCTION(externContent->content, sizeof(char) * externContent->size);
     }
     externContent->content[externContent->capacity++] = str;
-
 }
 void makeObjectFile(objectFileContent *objectContent, char *fileName){
     int i;
@@ -164,7 +156,7 @@ void makeObjectFile(objectFileContent *objectContent, char *fileName){
 void makeExternFile(externFileContent *externContent, char *fileName){
     int i;
     FILE *fp = NULL;
-    fileName = giveNameFile(fileName, ".txt");
+    fileName = giveNameFile(fileName, ".ext");
     fp = fopen(fileName, "w");
     if (fp == NULL){
         printf("Error: can't open file %s\n",fileName);
@@ -178,23 +170,35 @@ void makeExternFile(externFileContent *externContent, char *fileName){
 }
 void makeEntryFile(symbolTable *labelList, char *fileName){
     int i;
+    bool found = false;
     FILE *fp = NULL;
     char *str = malloc(sizeof(char) * 40);
     fileName = giveNameFile(fileName, ".ent");
-    fp = fopen(fileName, "w");
-    if (fp == NULL){
-        printf("Error: can't open file %s\n",fileName);
-        return;
-    }
+
     for (i = 0; i < labelList->capacity; ++i) {
-        if (labelList->content[i]->defineType == entryLabel) {
-            sprintf(str, "%s %d", labelList->content[i]->symbolName, labelList->content[i]->address);
-            fprintf(fp, "%s\n", str);
+            if (labelList->content[i]->defineType == entryLabel) {
+                if (!found) {
+                    fp = fopen(fileName, "w");
+                    if (fp == NULL){
+                        printf("Error: can't open file %s\n",fileName);
+                        return;
+                    }
+                    found = true;
+                    fprintf(fp, "%s %d\n", labelList->content[i]->symbolName, labelList->content[i]->address);
+                } else {
+                sprintf(str, "%s %d", labelList->content[i]->symbolName, labelList->content[i]->address);
+                fprintf(fp, "%s\n", str);
+            }
         }
     }
-    fclose(fp);
+    if (found) {
+        fclose(fp);
+    }
+    free(str);
     free(fileName);
+
 }
+
 const char base64Chars[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 char* decimal12ToBase64(int n) {
     char *result = malloc(sizeof(char) * 3);

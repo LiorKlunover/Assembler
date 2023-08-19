@@ -9,6 +9,7 @@ char** splitString( char* input,int *countWords,char *operands){
     int count = 0;
     char * token;
     char ** substrings = malloc(sizeof(char *) * MAX_LINE_LENGTH);
+    str[strlen(str) - 1] = '\n';
     token= strtok(str, operands);
 
     while (token != NULL) {
@@ -16,7 +17,6 @@ char** splitString( char* input,int *countWords,char *operands){
         count++;
         token = strtok(NULL, operands);
     }
-
     substrings[count] = NULL;
     *countWords = count;
     free(str);
@@ -64,7 +64,7 @@ bool checkValidMacroName(macroTable *table, char *name, int lineNum){
             return false;
         }
     }
-    for (i = 0; i < strlen(name); ++i) {
+    for (i = 1; i < strlen(name); ++i) {
         if (!isalpha(name[i]) && !isdigit(name[i])) {
             printf("Error in lineStr %d: macro name must contain only letters and numbers\n",lineNum);
             return false;
@@ -99,7 +99,7 @@ macro *createNewMacro(const char *macroName, const char *macroContent){
     return newMacro;
 }
 void addContentToMacro(macro *currMacro, char *newContent){
-
+    newContent[strlen(newContent) - 1] = '\n';
     size_t currLen = strlen(currMacro->content);
     size_t newLen = strlen(newContent);
     char* str ;
