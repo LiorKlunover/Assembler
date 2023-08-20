@@ -1,1 +1,0 @@
-/usr/bin/cc --coverage -g CMakeFiles/Assembler.dir/Assembler.c.o CMakeFiles/Assembler.dir/code.c.o CMakeFiles/Assembler.dir/preAssembler.c.o CMakeFiles/Assembler.dir/table.c.o CMakeFiles/Assembler.dir/lexer.c.o CMakeFiles/Assembler.dir/firstPass.c.o CMakeFiles/Assembler.dir/secondPass.c.o -o Assembler 

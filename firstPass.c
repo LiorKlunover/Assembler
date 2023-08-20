@@ -2,14 +2,13 @@
 #include <stdlib.h>
 #include "table.h"
 bool firstPass(char *fileAm, macroTable *macroTable,lexTable *lexTable, symbolTable *labelList) {
-    FILE *fp=NULL;
+    FILE *fp = NULL;
 
     fileAm = giveNameFile(fileAm, ".am");
     fp = fopen(fileAm, "r");
     if (fp == NULL) {
         printf("Error: file %s cannot be opened\n", fileAm);
         free(fileAm);
-        fclose(fp);
         return false;
     }
     if (lineProcessFirst(fp, macroTable, lexTable, labelList)) {
@@ -42,7 +41,7 @@ bool lineProcessFirst(FILE *fp, macroTable *macroTable,lexTable *lexTable, symbo
             for (i = 0; i < line->size; ++i) {
                 free(line->lineContent[i]);
             }
-            free(line->lineContent);
+
         }
         line->lineContent = splitString(currLine, &countWords, " \n");
         line->lineNum = ++index;
@@ -51,6 +50,7 @@ bool lineProcessFirst(FILE *fp, macroTable *macroTable,lexTable *lexTable, symbo
         lexTree = getLexTreePosition(line, labelList,IC,DC,macroTable);
         if (lexTree == NULL) {
             error = false;
+            continue;
         }else{
             if (lexTree->lineType == lexInst)
                 addBinaryCode(lexTree);
@@ -60,12 +60,6 @@ bool lineProcessFirst(FILE *fp, macroTable *macroTable,lexTable *lexTable, symbo
         if (lexTree != NULL) {
             free(lexTree);
         }
-    }
-    if (line->lineContent != NULL){
-        for (i = 0; i < line->size; ++i) {
-            free(line->lineContent[i]);
-        }
-        free(line->lineContent);
     }
     if(!error){
         for(i = 0; i < lexTable->capacity; ++i){
@@ -102,7 +96,6 @@ bool checkForError(char *line, int lineNum) {
 
 
 void addBinaryCode(lexStruct *lexStruct){
-    int bit =0;
     if (lexStruct->lineType == lexInst && lexStruct->lexType.instType.instName != error) {
         getInstructionsAndOperandsBit(lexStruct);
 
