@@ -34,21 +34,18 @@ bool lineProcessFirst(FILE *fp, macroTable *macroTable,lexTable *lexTable, symbo
     *IC = 0;
     *DC = 0;
     while (fgets(currLine, MAX_LINE_LENGTH, fp) != NULL) {
+       countWords = 0;
         if(!checkForError(currLine, (index+1))){
             error = false;
         }
-        if (line->lineContent != NULL){
-            for (i = 0; i < line->size; ++i) {
-                free(line->lineContent[i]);
-            }
 
-        }
         line->lineContent = splitString(currLine, &countWords, " \n");
         line->lineNum = ++index;
         line->size = countWords;
 
         lexTree = getLexTreePosition(line, labelList,IC,DC,macroTable);
         if (lexTree == NULL) {
+            freeLineStr(line);
             error = false;
             continue;
         }else{
@@ -56,10 +53,10 @@ bool lineProcessFirst(FILE *fp, macroTable *macroTable,lexTable *lexTable, symbo
                 addBinaryCode(lexTree);
         }
         insertLexTable(lexTable,*lexTree);
-
         if (lexTree != NULL) {
             free(lexTree);
         }
+        freeLineStr(line);
     }
     if(!error){
         for(i = 0; i < lexTable->capacity; ++i){
@@ -93,7 +90,15 @@ bool checkForError(char *line, int lineNum) {
     }
     return true;
 }
-
+void freeLineStr(lineStr *line){
+    int i;
+    for (i = 0; i < line->size; ++i) {
+        if (line->lineContent[i] != NULL)
+            free(line->lineContent[i]);
+    }
+    if (line->lineContent != NULL)
+        free(line->lineContent);
+}
 
 void addBinaryCode(lexStruct *lexStruct){
     if (lexStruct->lineType == lexInst && lexStruct->lexType.instType.instName != error) {

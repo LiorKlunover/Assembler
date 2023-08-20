@@ -10,3 +10,5 @@ void getInstructionsAndOperandsBit( lexStruct *lexTree);
 int getOpCodeBinary(opCode opCode);
 int getAddressingType(operandAddrType arrAddrType[], int index);
 void insertLexTable(lexTable *lexTable,lexStruct lexTree);
+void freeLineStr(lineStr *line);
+

@@ -5,22 +5,30 @@
 #include "code.h"
 
 char** splitString( char* input,int *countWords,char *operands){
-    char *str = strdup(input);
+    char *str = (char*) malloc(strlen(input) + 1);
     int count = 0;
     char * token;
     char ** substrings = malloc(sizeof(char *) * MAX_LINE_LENGTH);
+    if (checkComma(input)) {
+        printf("Error: line contains consecutive commas\n");
+
+        free(str);
+        return NULL;
+    }
+    strcpy(str, input);
     str[strlen(str) - 1] = '\n';
     token= strtok(str, operands);
 
     while (token != NULL) {
-        substrings[count] = strdup(token);
+        substrings[count] = malloc(strlen(token) + 1);
+        strcpy(substrings[count], token);
         count++;
         token = strtok(NULL, operands);
     }
     substrings[count] = NULL;
     *countWords = count;
-    free(str);
     free(token);
+    free(str);
     return substrings;
 }
 void insertMacro(macroTable *macroTable, char *name, char *content,macro **currMacro) {
@@ -99,12 +107,12 @@ macro *createNewMacro(const char *macroName, const char *macroContent){
     return newMacro;
 }
 void addContentToMacro(macro *currMacro, char *newContent){
-    newContent[strlen(newContent) - 1] = '\n';
-    size_t currLen = strlen(currMacro->content);
-    size_t newLen = strlen(newContent);
+
+     int currLen = strlen(currMacro->content);
+    int newLen = strlen(newContent);
     char* str ;
     ALLOCATE(str, currLen + newLen + 1);
-
+    newContent[strlen(newContent) - 1] = '\n';
     strcpy(str, currMacro->content);
     strcat(str, newContent);
 

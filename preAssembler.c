@@ -53,6 +53,7 @@ bool lineProcess(FILE *fp,  FILE *newFile, macroTable *macroTable){
      while (fgets(currLine, MAX_LINE_LENGTH, fp) != NULL) {
          index= 0;
          lineNum++;
+         countWords = 0;
          SKIP_WHITE(currLine, index)
          lineContent->lineContent = splitString(currLine, &countWords, " \n");
          lineContent->lineNum = lineNum;

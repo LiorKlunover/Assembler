@@ -89,21 +89,31 @@ e
 	test1.txt,0\5\055e2536b6ac416b21f4ba26f180983a90e94a3a
 >
 preAssembler.h,a\1\a18651830ff6de86a4dba7d5c72a2e330aec75af
-;
-firstPass.h,5\0\507a0113378aaa7a41bce75f5c60ff223b00b1b5
 7
 table.h,6\b\6b3743a8dec44b105dd924d28cbf684747c4c9f9
 =
 errorsTest.am,b\d\bd2d8ec6fb8822e432dd80adbbdfe1f88b772229
 9
 	globals.h,d\7\d74f3a31e0d93a3cfe1ab65a9388f85917626b98
->
-preAssembler.c,6\3\63b17cd4632b1e98b140f9c36ebb27e17caa3e46
 <
 secondPass.h,0\8\081e6796114402b6701d19cfd2cc76d090f2df53
 =
-testMacros.as,b\0\b06bc2a465bd3aca0571d934dd6f2a4084ee3c66
-=
 testMacros.ob,a\e\ae547518d64037b2e1ca1a4ccec728bbe4f2918f
-=
-testMacros.am,f\9\f9cdd58436250bcb292868cb05efef416b5e2d3c
+>
+testMacros.ext,b\b\bbf360d2266126f91c7caaaf554de76fdc705b21
+5
+test1,b\4\b444ac06613fc8d63795be9ad0beaf55011936ac
+>
+testMacros.ent,e\1\e1d41c5f76980a7a25c127e796a6238ebe5dc5b5
+8
+test1.ob,7\4\7450e55131d350d92ec0509d95ecf3997ac472f4
+9
+	test1.ent,7\0\70fcb912d50ac5018e5a74b01af7066170ee2594
+9
+	test1.ext,b\7\b7b6e8e7f37b7cafbbfd5d5b2ab1796d72d0ada9
+8
+test1.am,f\9\f91b331621ce386061893ade44225a9994025430
+7
+table.c,8\e\8e6945540253d6345dcd793b30aa8bcad5975581
+8
+test1.as,2\3\236ce52802697421cd985dfc23e065ccc859e2ff

@@ -201,9 +201,11 @@ lexStruct * getLexTreePosition(lineStr *line, symbolTable *labelTable, int * IC,
 }
 char *isValidString(char *str) {
     char *newStr;
-    char *result = strdup(str);
-    int len = strlen(result);
-    int left = 0, right = len - 1;
+    char *result = (char *) malloc(sizeof(char) * (strlen(str) + 1));
+    int len,left = 0, right;
+    strcpy(result, str);
+    len = strlen(result);
+    right = len - 1;
     if (result[left++] != '\"' || result[right--] != '\"'){
         free(result);
         return NULL;
@@ -217,7 +219,8 @@ char *isValidString(char *str) {
     if (right >= 0 && result[right] == ' ')
         right--;
     result[right + 1] = '\0';
-    newStr = strdup(result + left);
+    newStr= (char *) malloc(sizeof(char) * (right - left + 2));
+    strcpy(newStr, result + left);
     free(result);
     return newStr;
 }
