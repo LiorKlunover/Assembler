@@ -85,4 +85,6 @@ bool checkOperandOrder(opCode opCode, operandAddrType arrOpType[], int *lineNum 
 void makeStringBitArray(char *str ,bitLine *stringBitArray);
 int isValidNumber( char *str);
 char * isValidString(char *str);
+bool checkInvalidLeftComma(char *str) ;
+bool checkInvalidRightComma(char *str) ;
 #endif

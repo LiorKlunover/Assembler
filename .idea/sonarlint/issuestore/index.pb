@@ -89,12 +89,8 @@ e
 	test1.txt,0\5\055e2536b6ac416b21f4ba26f180983a90e94a3a
 >
 preAssembler.h,a\1\a18651830ff6de86a4dba7d5c72a2e330aec75af
-8
-test1.as,2\3\236ce52802697421cd985dfc23e065ccc859e2ff
 ;
 firstPass.h,5\0\507a0113378aaa7a41bce75f5c60ff223b00b1b5
-7
-lexer.h,3\8\380a3af72432eda1e9ad79de4f1336c9950c261a
 7
 table.h,6\b\6b3743a8dec44b105dd924d28cbf684747c4c9f9
 =

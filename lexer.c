@@ -367,7 +367,13 @@ bool getData(const char *inputString, int *numArray, int *numCount,int *lineNum)
     int len = strlen(inputString) + 1;
     char *copy = (char *) malloc(len * sizeof (char));
     strcpy(copy, inputString);
+    if(!checkInvalidLeftComma(copy) || !checkInvalidRightComma(copy)){
+        printf("Error in line %d: Invalid comma\n", *lineNum);
+        free(copy);
+        return false;
+    }
     token = strtok(copy, ",");
+
     while (token != NULL) {
         if (*numCount >= MAX_DATA_VALUE) {
             printf("Error in line %d: Exceeded maximum number of values\n", *lineNum);
@@ -403,6 +409,35 @@ bool getData(const char *inputString, int *numArray, int *numCount,int *lineNum)
         free(copy);
     }
     return true;
+}
+bool checkInvalidLeftComma(char *str) {
+    int i;
+    int len = strlen(str);
+    for (i = 0; i < len; ++i) {
+        if (str[i] == ' ' || str[i] == '\t') {
+            continue;
+        }
+        if (str[i] != ',') {
+            return true;
+        }else
+
+            return false;
+    }
+    return false;
+}
+bool checkInvalidRightComma(char *str) {
+    int i;
+    int len = strlen(str);
+    for (i = len-1; i >=0; --i) {
+        if (str[i] == ' ' || str[i] == '\t') {
+            continue;
+        }
+        if (str[i] != ',') {
+            return true;
+        }else
+            return false;
+    }
+    return false;
 }
 int isValidNumber(char *str) {
     if (*str == ' ') {
