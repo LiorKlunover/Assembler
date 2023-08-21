@@ -7,8 +7,8 @@
 static int count = 0;
 bool secondPass(char *fileName, lexTable *lexList, symbolTable *labelList){
      int lineBit;
-    objectFileContent *objectFileContentList = makeObjectFileContent();
-    externFileContent *externFileContentList = makeExternFileContent();
+    objectFileContent *objectFileContentList = makeObjectFileContentTable();
+    externFileContent *externFileContentList = makeExternFileContentTable();
     lexStruct *currLex = NULL;
     int i = 0 , j;
 

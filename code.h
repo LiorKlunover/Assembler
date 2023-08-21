@@ -50,7 +50,7 @@ bool checkComma(char* str);
  * @param content The content of the new macro.
  * @param currMacro A pointer to the current macro being processed.
  */
-void insertMacro(macroTable *macroTable, char *name, char *content, macro **currMacro);
+void insertMacroInMacroTable(macroTable *macroTable, char *name, char *content, macro **currMacro);
 
 /**
  * Creates a new macro with the specified name and content.

@@ -101,7 +101,7 @@ bool lineProcess(FILE *fp,  FILE *newFile, macroTable *macroTable){
                  return false;
              }
              inMacroMode = true;
-            insertMacro(macroTable, lineContent->lineContent[1], "", currMakro);
+            insertMacroInMacroTable(macroTable, lineContent->lineContent[1], "", currMakro);
              for (index = 0; index < lineContent->size; ++index) {
                  free(lineContent->lineContent[index]);
              }

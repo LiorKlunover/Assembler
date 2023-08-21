@@ -10,7 +10,7 @@
  *
  * @return A pointer to the newly created lexeme table.
  */
-lexTable *createLexStruct();
+lexTable *createLexStructTable();
 
 /**
  * Create a new macro table.
@@ -31,13 +31,13 @@ symbolTable *createSymbolTable();
  *
  * @return A pointer to the newly created object file content structure.
  */
-objectFileContent *makeObjectFileContent();
+objectFileContent *makeObjectFileContentTable();
 
 /**
  * Create a new extern file content structure.
  *
  * @return A pointer to the newly created extern file content structure.
  */
-externFileContent *makeExternFileContent();
+externFileContent *makeExternFileContentTable();
 
 #endif

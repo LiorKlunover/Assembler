@@ -26,7 +26,7 @@ symbolTable *createSymbolTable(){
     }
     return symbolTable;
 }
-lexTable *createLexStruct(){
+lexTable *createLexStructTable(){
     int i;
     lexTable *lexTable = NULL;
     ALLOCATE(lexTable, sizeof(lexTable));
@@ -38,18 +38,23 @@ lexTable *createLexStruct(){
     }
     return lexTable;
 }
-objectFileContent * makeObjectFileContent(){
+objectFileContent * makeObjectFileContentTable(){
     int i;
     objectFileContent *objectFileContent = malloc(sizeof(objectFileContent));
     objectFileContent->content = malloc(TABLE_SIZE * sizeof(char*));
     objectFileContent->size = TABLE_SIZE;
     objectFileContent->capacity = 0;
+    if(objectFileContent->content == NULL || objectFileContent == NULL){
+        printf("malloc failed in makeObjectFileContent\n");
+        exit(0);
+    }
+
     for (i = 0; i < TABLE_SIZE; ++i) {
         objectFileContent->content[i] = NULL;
     }
     return objectFileContent;
 }
-externFileContent * makeExternFileContent(){
+externFileContent * makeExternFileContentTable(){
     int i;
     externFileContent *externFileContent = malloc(sizeof(externFileContent));
     externFileContent->content = malloc(TABLE_SIZE * sizeof(char*));

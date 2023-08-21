@@ -9,12 +9,19 @@ char** splitString( char* input,int *countWords,char *operands){
     int count = 0;
     char * token;
     char ** substrings = malloc(sizeof(char *) * MAX_LINE_LENGTH);
+    if (str == NULL || substrings == NULL) {
+        printf("Error: malloc has failed\n");
+        free(str);
+        free(substrings);
+        return NULL;
+    }
     if (checkComma(input)) {
         printf("Error: line contains consecutive commas\n");
 
         free(str);
         return NULL;
     }
+
     strcpy(str, input);
     str[strlen(str) - 1] = '\n';
     token= strtok(str, operands);
@@ -31,7 +38,7 @@ char** splitString( char* input,int *countWords,char *operands){
     free(str);
     return substrings;
 }
-void insertMacro(macroTable *macroTable, char *name, char *content,macro **currMacro) {
+void insertMacroInMacroTable(macroTable *macroTable, char *name, char *content, macro **currMacro) {
 
     int i;
     macro *newMacro;
