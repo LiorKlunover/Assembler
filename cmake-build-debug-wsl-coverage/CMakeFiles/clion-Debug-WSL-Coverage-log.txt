@@ -1,4 +1,4 @@
-C:\WINDOWS\system32\wsl.exe --distribution Ubuntu --exec /bin/sh -c "export CMAKE_COLOR_DIAGNOSTICS=ON && export CLION_IDE=TRUE && export JETBRAINS_IDE=TRUE && cd /mnt/c/Users/lior3/CLionProjects/untitled8/cmake-build-debug-wsl-coverage && /usr/bin/cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_FLAGS=--coverage -DCMAKE_C_FLAGS=--coverage -G 'CodeBlocks - Unix Makefiles' -S /mnt/c/Users/lior3/CLionProjects/untitled8 -B /mnt/c/Users/lior3/CLionProjects/untitled8/cmake-build-debug-wsl-coverage"
+C:\WINDOWS\system32\wsl.exe --distribution Ubuntu --exec /bin/bash -c "export CMAKE_COLOR_DIAGNOSTICS=ON && export CLION_IDE=TRUE && export JETBRAINS_IDE=TRUE && cd /mnt/c/Users/lior3/CLionProjects/untitled8/cmake-build-debug-wsl-coverage && /usr/bin/cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_FLAGS=--coverage -DCMAKE_C_FLAGS=--coverage -G 'CodeBlocks - Unix Makefiles' -S /mnt/c/Users/lior3/CLionProjects/untitled8 -B /mnt/c/Users/lior3/CLionProjects/untitled8/cmake-build-debug-wsl-coverage"
 CMake Deprecation Warning:
   Support for "Extra Generators" like
 
@@ -14,7 +14,7 @@ CMake Deprecation Warning:
 -- Check for working C compiler: /usr/bin/cc - skipped
 -- Detecting C compile features
 -- Detecting C compile features - done
--- Configuring done (1.5s)
+-- Configuring done (1.2s)
 -- Generating done (0.1s)
 CMake Warning:
   Manually-specified variables were not used by the project:

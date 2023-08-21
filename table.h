@@ -3,16 +3,41 @@
 #ifndef TABLE_H
 #define TABLE_H
 #define TABLE_SIZE 10
-#define MAKE_TYPE_CONTENT_TABLE(fileName) { \
-    ALLOCATE(fileName, sizeof(*fileName)); \
-    ALLOCATE(fileName->content, TABLE_SIZE * sizeof(char*)); \
-    fileName->size = TABLE_SIZE; \
-    fileName->capacity = 0; \
-}
+
+
+/**
+ * Create a new lexeme table.
+ *
+ * @return A pointer to the newly created lexeme table.
+ */
 lexTable *createLexStruct();
-macroTable *creatMacroTable();
-symbolTable *creatSymbolTable();
-objectFileContent * makeObjectFileContent();
-entryFileContent * makeEntryFileContent();
-externFileContent * makeExternFileContent();
+
+/**
+ * Create a new macro table.
+ *
+ * @return A pointer to the newly created macro table.
+ */
+macroTable *createMacroTable();
+
+/**
+ * Create a new symbol table.
+ *
+ * @return A pointer to the newly created symbol table.
+ */
+symbolTable *createSymbolTable();
+
+/**
+ * Create a new object file content structure.
+ *
+ * @return A pointer to the newly created object file content structure.
+ */
+objectFileContent *makeObjectFileContent();
+
+/**
+ * Create a new extern file content structure.
+ *
+ * @return A pointer to the newly created extern file content structure.
+ */
+externFileContent *makeExternFileContent();
+
 #endif

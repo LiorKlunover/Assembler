@@ -10,18 +10,18 @@ void freeLexTable(lexTable *lexTable);
 void freeMacroTable(macroTable *macroTable);
 void freeSymbolTable(symbolTable *symbolTable);
 int main( int argc, char *argv[] ) {
-    int i,j;
+    int i;
     lexTable *lexTable;
     symbolTable *symbolTable;
     macroTable *macroTable;
     for (i = 1; i < argc; ++i) {
-         macroTable = creatMacroTable();
+         macroTable = createMacroTable();
        if(!preProcessFile(argv[i], macroTable)){
            freeMacroTable(macroTable);
            printf("File %s pre processed file failed in main\n", argv[i]);
            continue;
        }
-        symbolTable = creatSymbolTable();
+        symbolTable = createSymbolTable();
         lexTable = createLexStruct();
         printf("File %s pre processed succeeded\n\n", argv[i]);
        if(!firstPass(argv[i], macroTable,lexTable,symbolTable)){
@@ -33,7 +33,7 @@ int main( int argc, char *argv[] ) {
         printf("File %s firstPass succeeded\n\n", argv[i]);
         freeMacroTable(macroTable);
 
-       if(!secondPass(argv[j],lexTable,symbolTable)){
+       if(!secondPass(argv[i],lexTable,symbolTable)){
            freeLexTable(lexTable);
            freeSymbolTable(symbolTable);
             printf("File %s Second pass failed in main\n\n", argv[i]);

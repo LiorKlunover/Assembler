@@ -21,19 +21,6 @@
             exit(EXIT_FAILURE);                    \
         }                                          \
     } while (0)
-#define FREE_STRUCT(type, var) do { \
-    int i;\
-    if (var) { \
-        if (var->content) { \
-            for ( i = 0; i < var->capacity; ++i) { \
-                free(var->content[i]); \
-            } \
-            free(var->content); \
-        } \
-        free(var); \
-        var = NULL; \
-    } \
-} while (0)
 
 typedef enum booleans {
     false = 0, true = 1
@@ -88,15 +75,6 @@ typedef struct symbolTable{
     int size;
     int capacity;
 } symbolTable;
-
-typedef struct first_w {
-    unsigned int ARE: 2;
-    unsigned int dest_op_addr: 2;
-    unsigned int src_op_addr: 2;
-    unsigned int op_code: 4;
-    unsigned int second_param: 2;
-    unsigned int first_param: 2;
-} first_w;
 typedef struct line{
     char **lineContent;
     int size;
@@ -124,9 +102,4 @@ typedef struct externContent{
     int capacity;
 }externFileContent;
 
-typedef struct entryContent{
-    char **content;
-    int size;
-    int capacity;
-}entryFileContent;
 #endif

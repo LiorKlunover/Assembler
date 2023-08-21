@@ -179,11 +179,12 @@ void makeEntryFile(symbolTable *labelList, char *fileName){
             if (labelList->content[i]->defineType == entryLabel) {
                 if (!found) {
                     fp = fopen(fileName, "w");
+                    found = true;
                     if (fp == NULL){
                         printf("Error: can't open file %s\n",fileName);
                         return;
                     }
-                    found = true;
+
                     fprintf(fp, "%s %d\n", labelList->content[i]->symbolName, labelList->content[i]->address);
                 } else {
                 sprintf(str, "%s %d", labelList->content[i]->symbolName, labelList->content[i]->address);

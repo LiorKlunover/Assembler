@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-macroTable *creatMacroTable(){
+macroTable *createMacroTable(){
     int i;
     macroTable *macroTable =  NULL;
     ALLOCATE(macroTable, sizeof(macroTable));
@@ -14,7 +14,7 @@ macroTable *creatMacroTable(){
     }
     return macroTable;
 }
-symbolTable *creatSymbolTable(){
+symbolTable *createSymbolTable(){
     int i;
     symbolTable *symbolTable = NULL;
     ALLOCATE(symbolTable, sizeof(symbolTable));
@@ -60,14 +60,4 @@ externFileContent * makeExternFileContent(){
     }
     return externFileContent;
 }
-entryFileContent * makeEntryFileContent(){
-    int i;
-    entryFileContent *entryFileContent = malloc(sizeof(entryFileContent));
-    entryFileContent->content = malloc(TABLE_SIZE * sizeof(char*));
-    entryFileContent->size = TABLE_SIZE;
-    entryFileContent->capacity = 0;
-    for (i = 0; i < TABLE_SIZE; ++i) {
-        entryFileContent->content[i] = NULL;
-    }
-    return entryFileContent;
-}
+
